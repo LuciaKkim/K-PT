@@ -4,6 +4,7 @@ import cloud.intensive.kpt.global.response.CommonResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -76,6 +77,20 @@ public class GlobalExceptionHandler {
                 .body(CommonResponse.fail(
                         ErrorCode.INVALID_REQUEST.getCode(),
                         ErrorCode.INVALID_REQUEST.getMessage()
+                ));
+    }
+
+    /**
+     * JSON 파싱 실패
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<CommonResponse<Void>> handleNotReadable(
+            HttpMessageNotReadableException e
+    ) {
+        return ResponseEntity.badRequest()
+                .body(CommonResponse.fail(
+                        ErrorCode.INVALID_REQUEST.getCode(),
+                        "잘못된 요청입니다."
                 ));
     }
 
