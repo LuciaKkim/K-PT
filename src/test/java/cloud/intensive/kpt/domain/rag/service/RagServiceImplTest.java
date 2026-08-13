@@ -75,7 +75,10 @@ class RagServiceImplTest {
     void query() {
 
         // given
-        RagQueryReq req = new RagQueryReq("주차는 몇 대까지 가능해?");
+        RagQueryReq req = new RagQueryReq(
+                "주차는 몇 대까지 가능해?",
+                null
+        );
 
         given(memberRepository.findById(1L))
                 .willReturn(Optional.of(member));
@@ -83,7 +86,9 @@ class RagServiceImplTest {
         given(lambdaClient.query(any()))
                 .willReturn(new LambdaResponse(
                         "세대당 2대까지 가능합니다.",
-                        List.of("제12조 주차관리")
+                        List.of("제12조 주차관리"),
+                        "session-123",
+                        "DEFAULT"
                 ));
 
         // when
@@ -99,7 +104,8 @@ class RagServiceImplTest {
         then(lambdaClient).should()
                 .query(new LambdaRequest(
                         3L,
-                        "주차는 몇 대까지 가능해?"
+                        "주차는 몇 대까지 가능해?",
+                        null
                 ));
     }
 
@@ -113,7 +119,7 @@ class RagServiceImplTest {
 
         // when & then
         assertThatThrownBy(() ->
-                ragService.query(1L, new RagQueryReq("질문"))
+                ragService.query(1L, new RagQueryReq("질문", null))
         )
                 .isInstanceOf(BaseException.class)
                 .extracting("errorCode")
@@ -137,7 +143,7 @@ class RagServiceImplTest {
 
         // when & then
         assertThatThrownBy(() ->
-                ragService.query(1L, new RagQueryReq("질문"))
+                ragService.query(1L, new RagQueryReq("질문", null))
         )
                 .isInstanceOf(BaseException.class)
                 .extracting("errorCode")

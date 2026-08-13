@@ -36,13 +36,15 @@ public class RagServiceImpl implements RagService {
         LambdaResponse response = lambdaClient.query(
                 new LambdaRequest(
                         apartment.getId(),
-                        request.question()
+                        request.question(),
+                        request.sessionId()
                 )
         );
 
         return new RagQueryRes(
                 response.answer(),
-                response.references()
+                response.references(),
+                response.sessionId()
         );
     }
 }

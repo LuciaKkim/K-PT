@@ -5,6 +5,7 @@ import java.util.List;
 public record LambdaResponse(
 
         String answer,
-
-        List<String> references
+        List<String> references,
+        String sessionId,
+        String mode
 ) {}

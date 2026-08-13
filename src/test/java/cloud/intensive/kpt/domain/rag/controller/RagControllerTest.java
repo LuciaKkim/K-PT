@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willAnswer;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -80,10 +81,11 @@ class RagControllerTest {
     void query() throws Exception {
 
         // given
-        given(ragService.query(any(), any()))
+        given(ragService.query(anyLong(), any()))
                 .willReturn(new RagQueryRes(
-                        "우리 아파트는 2대까지 가능합니다.",
-                        List.of("제12조")
+                        "방문 차량은 최대 4시간 무료입니다.",
+                        List.of("주차관리규정 제5조"),
+                        "session-123"
                 ));
 
         UsernamePasswordAuthenticationToken authentication =
@@ -109,8 +111,10 @@ class RagControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.resultCode").value("200-1"))
                 .andExpect(jsonPath("$.data.answer")
-                        .value("우리 아파트는 2대까지 가능합니다."))
+                        .value("방문 차량은 최대 4시간 무료입니다."))
                 .andExpect(jsonPath("$.data.references[0]")
-                        .value("제12조"));
+                        .value("주차관리규정 제5조"))
+                .andExpect(jsonPath("$.data.sessionId")
+                        .value("session-123"));
     }
 }
