@@ -3,6 +3,8 @@ package cloud.intensive.kpt.domain.apartment.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Builder
@@ -29,6 +31,6 @@ public class Unit {
     @Column(name = "unit_number", nullable = false)
     private String unitNumber;
 
-    @Column(nullable = false)
-    private Integer area;
+    @Column(nullable = false, precision = 5, scale = 2)
+    private BigDecimal area;
 }
