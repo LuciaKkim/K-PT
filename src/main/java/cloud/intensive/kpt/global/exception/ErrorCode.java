@@ -68,6 +68,18 @@ public enum ErrorCode {
             "이메일 또는 비밀번호가 올바르지 않습니다."
     ),
 
+    COMPLAINT_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "404-3",
+            "존재하지 않는 민원입니다."
+    ),
+
+    RAG_TIMEOUT(
+            HttpStatus.GATEWAY_TIMEOUT,
+            "504-1",
+            "AI 응답 시간이 초과되었습니다."
+    ),
+
     INTERNAL_SERVER_ERROR(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "500-1",
