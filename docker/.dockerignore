@@ -1,0 +1,15 @@
+build/
+.gradle/
+
+.git/
+.github/
+
+.idea/
+.vscode/
+
+*.iml
+
+README.md
+.env
+
+docker/nginx/
