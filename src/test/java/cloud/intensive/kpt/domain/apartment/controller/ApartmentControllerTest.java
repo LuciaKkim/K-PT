@@ -1,7 +1,6 @@
 package cloud.intensive.kpt.domain.apartment.controller;
 
-import cloud.intensive.kpt.domain.apartment.dto.ApartmentInfoRes;
-import cloud.intensive.kpt.domain.apartment.dto.UnitInfoRes;
+import cloud.intensive.kpt.domain.apartment.dto.*;
 import cloud.intensive.kpt.domain.apartment.service.ApartmentService;
 import cloud.intensive.kpt.domain.member.entity.Member;
 import cloud.intensive.kpt.domain.member.entity.MemberRole;
@@ -25,10 +24,13 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willAnswer;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ApartmentController.class)
@@ -136,5 +138,49 @@ class ApartmentControllerTest {
                 .andExpect(jsonPath("$.data.buildingNumber").value("101"))
                 .andExpect(jsonPath("$.data.unitNumber").value("1201"))
                 .andExpect(jsonPath("$.data.area").value(84));
+    }
+
+    @Test
+    @DisplayName("아파트 목록 조회 성공")
+    void getApartments() throws Exception {
+
+        given(apartmentService.getApartments())
+                .willReturn(List.of(
+                        new ApartmentListRes(1L, "래미안", "서울")
+                ));
+
+        mockMvc.perform(get("/api/v1/apartments"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].name").value("래미안"));
+    }
+
+    @Test
+    @DisplayName("동 목록 조회 성공")
+    void getBuildings() throws Exception {
+
+        given(apartmentService.getBuildings(1L))
+                .willReturn(List.of(
+                        new BuildingInfoRes(1L, "101")
+                ));
+
+        mockMvc.perform(get("/api/v1/apartments/1/buildings"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].buildingNumber").value("101"));
+    }
+
+    @Test
+    @DisplayName("호수 목록 조회 성공")
+    void getUnits() throws Exception {
+
+        given(apartmentService.getUnits(1L))
+                .willReturn(List.of(
+                        new UnitSelectRes(1L, "1201", 84)
+                ));
+
+        mockMvc.perform(get("/api/v1/apartments/buildings/1/units"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].unitNumber").value("1201"))
+                .andExpect(jsonPath("$.data[0].area").value(84));
     }
 }

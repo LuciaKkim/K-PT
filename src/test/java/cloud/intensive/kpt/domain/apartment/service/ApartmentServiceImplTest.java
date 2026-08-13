@@ -1,10 +1,12 @@
 package cloud.intensive.kpt.domain.apartment.service;
 
-import cloud.intensive.kpt.domain.apartment.dto.ApartmentInfoRes;
-import cloud.intensive.kpt.domain.apartment.dto.UnitInfoRes;
+import cloud.intensive.kpt.domain.apartment.dto.*;
 import cloud.intensive.kpt.domain.apartment.entity.Apartment;
 import cloud.intensive.kpt.domain.apartment.entity.Building;
 import cloud.intensive.kpt.domain.apartment.entity.Unit;
+import cloud.intensive.kpt.domain.apartment.repository.ApartmentRepository;
+import cloud.intensive.kpt.domain.apartment.repository.BuildingRepository;
+import cloud.intensive.kpt.domain.apartment.repository.UnitRepository;
 import cloud.intensive.kpt.domain.member.entity.Member;
 import cloud.intensive.kpt.domain.member.entity.MemberRole;
 import cloud.intensive.kpt.domain.member.repository.MemberRepository;
@@ -18,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -28,6 +31,15 @@ class ApartmentServiceImplTest {
 
     @Mock
     MemberRepository memberRepository;
+
+    @Mock
+    ApartmentRepository apartmentRepository;
+
+    @Mock
+    BuildingRepository buildingRepository;
+
+    @Mock
+    UnitRepository unitRepository;
 
     @InjectMocks
     ApartmentServiceImpl apartmentService;
@@ -129,5 +141,52 @@ class ApartmentServiceImplTest {
                 .isInstanceOf(BaseException.class)
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.MEMBER_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("아파트 목록 조회 성공")
+    void getApartments() {
+
+        Apartment apartment = Apartment.builder()
+                .id(1L)
+                .name("래미안")
+                .address("서울")
+                .build();
+
+        given(apartmentRepository.findAll())
+                .willReturn(List.of(apartment));
+
+        List<ApartmentListRes> result = apartmentService.getApartments();
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).name()).isEqualTo("래미안");
+    }
+
+    @Test
+    @DisplayName("동 목록 조회 성공")
+    void getBuildings() {
+
+        Building building = member.getUnit().getBuilding();
+
+        given(buildingRepository.findAllByApartmentId(1L))
+                .willReturn(List.of(building));
+
+        List<BuildingInfoRes> result = apartmentService.getBuildings(1L);
+
+        assertThat(result.get(0).buildingNumber()).isEqualTo("101");
+    }
+
+    @Test
+    @DisplayName("호수 목록 조회 성공")
+    void getUnits() {
+
+        Unit unit = member.getUnit();
+
+        given(unitRepository.findAllByBuildingId(1L))
+                .willReturn(List.of(unit));
+
+        List<UnitSelectRes> result = apartmentService.getUnits(1L);
+
+        assertThat(result.get(0).unitNumber()).isEqualTo("1201");
     }
 }

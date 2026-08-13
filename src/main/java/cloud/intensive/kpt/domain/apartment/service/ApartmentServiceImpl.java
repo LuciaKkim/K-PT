@@ -1,9 +1,11 @@
 package cloud.intensive.kpt.domain.apartment.service;
 
-import cloud.intensive.kpt.domain.apartment.dto.ApartmentInfoRes;
-import cloud.intensive.kpt.domain.apartment.dto.UnitInfoRes;
+import cloud.intensive.kpt.domain.apartment.dto.*;
 import cloud.intensive.kpt.domain.apartment.entity.Apartment;
 import cloud.intensive.kpt.domain.apartment.entity.Unit;
+import cloud.intensive.kpt.domain.apartment.repository.ApartmentRepository;
+import cloud.intensive.kpt.domain.apartment.repository.BuildingRepository;
+import cloud.intensive.kpt.domain.apartment.repository.UnitRepository;
 import cloud.intensive.kpt.domain.member.entity.Member;
 import cloud.intensive.kpt.domain.member.repository.MemberRepository;
 import cloud.intensive.kpt.global.exception.BaseException;
@@ -12,12 +14,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ApartmentServiceImpl implements ApartmentService {
 
     private final MemberRepository memberRepository;
+    private final ApartmentRepository apartmentRepository;
+    private final BuildingRepository buildingRepository;
+    private final UnitRepository unitRepository;
 
     @Override
     public ApartmentInfoRes getMyApartment(Long memberId) {
@@ -59,5 +66,43 @@ public class ApartmentServiceImpl implements ApartmentService {
                 unit.getUnitNumber(),
                 unit.getArea()
         );
+    }
+
+    @Override
+    public List<ApartmentListRes> getApartments() {
+
+        return apartmentRepository.findAll()
+                .stream()
+                .map(apartment -> new ApartmentListRes(
+                        apartment.getId(),
+                        apartment.getName(),
+                        apartment.getAddress()
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<BuildingInfoRes> getBuildings(Long apartmentId) {
+
+        return buildingRepository.findAllByApartmentId(apartmentId)
+                .stream()
+                .map(building -> new BuildingInfoRes(
+                        building.getId(),
+                        building.getBuildingNumber()
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<UnitSelectRes> getUnits(Long buildingId) {
+
+        return unitRepository.findAllByBuildingId(buildingId)
+                .stream()
+                .map(unit -> new UnitSelectRes(
+                        unit.getId(),
+                        unit.getUnitNumber(),
+                        unit.getArea()
+                ))
+                .toList();
     }
 }
