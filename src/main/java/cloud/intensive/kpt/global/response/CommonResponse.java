@@ -6,9 +6,6 @@ public record CommonResponse<T>(
         T data
 ) {
 
-    /**
-     * 성공 응답 (데이터 포함)
-     */
     public static <T> CommonResponse<T> success(ResultCode resultCode, T data) {
         return new CommonResponse<>(
                 resultCode.getCode(),
@@ -17,9 +14,14 @@ public record CommonResponse<T>(
         );
     }
 
-    /**
-     * 성공 응답 (데이터 없음)
-     */
+    public static <T> CommonResponse<T> success(T data) {
+        return new CommonResponse<>(
+                ResultCode.SUCCESS.getCode(),
+                ResultCode.SUCCESS.getMessage(),
+                data
+        );
+    }
+
     public static CommonResponse<Void> success(ResultCode resultCode) {
         return new CommonResponse<>(
                 resultCode.getCode(),
@@ -28,12 +30,31 @@ public record CommonResponse<T>(
         );
     }
 
-    /**
-     * 실패 응답
-     */
-    public static CommonResponse<Void> fail(String resultCode, String message) {
+    public static CommonResponse<Void> success(String message) {
         return new CommonResponse<>(
-                resultCode,
+                ResultCode.SUCCESS.getCode(),
+                message,
+                null
+        );
+    }
+
+    /**
+     * 실패 응답 (ResultCode)
+     */
+    public static CommonResponse<Void> fail(ResultCode resultCode) {
+        return new CommonResponse<>(
+                resultCode.getCode(),
+                resultCode.getMessage(),
+                null
+        );
+    }
+
+    /**
+     * 실패 응답 (코드 + 커스텀 메시지)
+     */
+    public static CommonResponse<Void> fail(String code, String message) {
+        return new CommonResponse<>(
+                code,
                 message,
                 null
         );
