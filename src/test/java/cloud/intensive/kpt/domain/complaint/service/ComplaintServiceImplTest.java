@@ -16,6 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -82,10 +85,10 @@ class ComplaintServiceImplTest {
                 .id(1L)
                 .apartment(apartment)
                 .member(user)
-                .category(ComplaintCategory.ELEVATOR)
+                .category(ComplaintCategory.FACILITY)
                 .title("엘리베이터 고장")
                 .content("2층에서 멈춥니다.")
-                .status(ComplaintStatus.PENDING)
+                .status(ComplaintStatus.RECEIVED)
                 .build();
     }
 
@@ -94,8 +97,9 @@ class ComplaintServiceImplTest {
     void createComplaint() {
 
         CreateComplaintReq req = new CreateComplaintReq(
-                ComplaintCategory.ELEVATOR,
+                ComplaintCategory.FACILITY,
                 "엘리베이터 고장",
+                "101동 엘리베이터",   // location
                 "2층에서 멈춤"
         );
 
@@ -114,14 +118,27 @@ class ComplaintServiceImplTest {
         given(memberRepository.findById(2L))
                 .willReturn(Optional.of(user));
 
-        given(complaintRepository.findAllByMemberIdOrderByCreatedAtDesc(2L))
-                .willReturn(List.of(complaint));
+        Page<Complaint> page = new PageImpl<>(List.of(complaint));
 
-        List<ComplaintListRes> result = complaintService.getMyComplaints(2L);
+        given(memberRepository.findById(2L))
+                .willReturn(Optional.of(user));
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).title()).isEqualTo("엘리베이터 고장");
-        assertThat(result.get(0).status()).isEqualTo(ComplaintStatus.PENDING);
+        given(complaintRepository.findAllByMemberIdOrderByCreatedAtDesc(
+                eq(2L), any(Pageable.class)))
+                .willReturn(page);
+
+        // when
+        Page<ComplaintListRes> result =
+                complaintService.getMyComplaints(2L, 0, 10);
+
+        // then
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).title())
+                .isEqualTo("엘리베이터 고장");
+        assertThat(result.getContent().get(0).status())
+                .isEqualTo(ComplaintStatus.RECEIVED);
+
+        assertThat(result.getTotalElements()).isEqualTo(1);
     }
 
     @Test
@@ -138,7 +155,7 @@ class ComplaintServiceImplTest {
 
         assertThat(result.complaintId()).isEqualTo(1L);
         assertThat(result.writer()).isEqualTo("입주민");
-        assertThat(result.category()).isEqualTo(ComplaintCategory.ELEVATOR);
+        assertThat(result.category()).isEqualTo(ComplaintCategory.FACILITY);
     }
 
     @Test
@@ -152,7 +169,10 @@ class ComplaintServiceImplTest {
                 .willReturn(Optional.of(complaint));
 
         UpdateComplaintStatusReq req =
-                new UpdateComplaintStatusReq(ComplaintStatus.COMPLETED);
+                new UpdateComplaintStatusReq(
+                        ComplaintStatus.COMPLETED,
+                        "엘리베이터 수리 완료"
+                );
 
         complaintService.updateStatus(1L, 1L, req);
 
@@ -168,7 +188,10 @@ class ComplaintServiceImplTest {
                 .willReturn(Optional.of(user));
 
         UpdateComplaintStatusReq req =
-                new UpdateComplaintStatusReq(ComplaintStatus.IN_PROGRESS);
+                new UpdateComplaintStatusReq(
+                        ComplaintStatus.PROCESSING,
+                        "부품 교체 진행 중"
+                );
 
         assertThatThrownBy(() ->
                 complaintService.updateStatus(2L, 1L, req))
@@ -192,5 +215,24 @@ class ComplaintServiceImplTest {
                 .isInstanceOf(BaseException.class)
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.COMPLAINT_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("관리자 아파트 민원 목록 조회 성공")
+    void getApartmentComplaints() {
+
+        Page<Complaint> page = new PageImpl<>(List.of(complaint));
+
+        given(memberRepository.findById(1L))
+                .willReturn(Optional.of(admin));
+
+        given(complaintRepository.findAllByApartmentIdOrderByCreatedAtDesc(
+                eq(1L), any(Pageable.class)))
+                .willReturn(page);
+
+        Page<ComplaintListRes> result =
+                complaintService.getApartmentComplaints(1L, 0, 10);
+
+        assertThat(result.getContent()).hasSize(1);
     }
 }

@@ -23,8 +23,14 @@ public record ComplaintInfoRes(
         @Schema(example = "5층 계단 난간이 파손되어 있습니다.")
         String content,
 
+        @Schema(example = "103동 11층 계단")
+        String location,
+
         @Schema(example = "PROCESSING")
         ComplaintStatus status,
+
+        @Schema(example = "난간 교체 완료")
+        String resolution,
 
         @Schema(description = "등록일시")
         LocalDateTime createdAt,

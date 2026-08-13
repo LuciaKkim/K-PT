@@ -10,8 +10,7 @@ public record CreateComplaintReq(
 
         @Schema(
                 description = "민원 유형",
-                example = "FACILITY",
-                allowableValues = {"FACILITY", "PARKING", "NOISE", "CLEANING", "OTHER"}
+                example = "FACILITY"
         )
         @NotNull
         ComplaintCategory category,
@@ -20,6 +19,11 @@ public record CreateComplaintReq(
         @NotBlank
         @Size(max = 100)
         String title,
+
+        @Schema(description = "민원 발생 위치", example = "103동 11층 계단")
+        @NotBlank
+        @Size(max = 100)
+        String location,
 
         @Schema(description = "민원 내용", example = "5층 계단 난간이 파손되어 있습니다.")
         @NotBlank

@@ -1,13 +1,22 @@
 package cloud.intensive.kpt.domain.complaint.repository;
 
 import cloud.intensive.kpt.domain.complaint.entity.Complaint;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
-    List<Complaint> findAllByMemberIdOrderByCreatedAtDesc(Long memberId);
+    Page<Complaint> findAllByMemberIdOrderByCreatedAtDesc(
+            Long memberId,
+            Pageable pageable
+    );
 
-    List<Complaint> findAllByApartmentIdOrderByCreatedAtDesc(Long apartmentId);
+
+    Page<Complaint> findAllByApartmentIdOrderByCreatedAtDesc(
+            Long apartmentId,
+            Pageable pageable
+    );
 }

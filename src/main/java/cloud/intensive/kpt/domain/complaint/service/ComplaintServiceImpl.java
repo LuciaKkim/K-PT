@@ -1,7 +1,10 @@
 package cloud.intensive.kpt.domain.complaint.service;
 
 import cloud.intensive.kpt.domain.apartment.entity.Apartment;
-import cloud.intensive.kpt.domain.complaint.dto.*;
+import cloud.intensive.kpt.domain.complaint.dto.ComplaintInfoRes;
+import cloud.intensive.kpt.domain.complaint.dto.ComplaintListRes;
+import cloud.intensive.kpt.domain.complaint.dto.CreateComplaintReq;
+import cloud.intensive.kpt.domain.complaint.dto.UpdateComplaintStatusReq;
 import cloud.intensive.kpt.domain.complaint.entity.Complaint;
 import cloud.intensive.kpt.domain.complaint.repository.ComplaintRepository;
 import cloud.intensive.kpt.domain.member.entity.Member;
@@ -10,10 +13,11 @@ import cloud.intensive.kpt.domain.member.repository.MemberRepository;
 import cloud.intensive.kpt.global.exception.BaseException;
 import cloud.intensive.kpt.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,26 +39,35 @@ public class ComplaintServiceImpl implements ComplaintService {
                 .category(request.category())
                 .title(request.title())
                 .content(request.content())
+                .location(request.location())
                 .build();
 
         complaintRepository.save(complaint);
     }
 
     @Override
-    public List<ComplaintListRes> getMyComplaints(Long memberId) {
+    public Page<ComplaintListRes> getMyComplaints(
+            Long memberId,
+            int page,
+            int size
+    ) {
 
         getMember(memberId);
 
-        return complaintRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId)
-                .stream()
+        Pageable pageable = PageRequest.of(page, size);
+
+        return complaintRepository
+                .findAllByMemberIdOrderByCreatedAtDesc(
+                        memberId,
+                        pageable
+                )
                 .map(c -> new ComplaintListRes(
                         c.getId(),
                         c.getCategory(),
                         c.getTitle(),
                         c.getStatus(),
                         c.getCreatedAt()
-                ))
-                .toList();
+                ));
     }
 
     @Override
@@ -71,29 +84,65 @@ public class ComplaintServiceImpl implements ComplaintService {
                 complaint.getCategory(),
                 complaint.getTitle(),
                 complaint.getContent(),
+                complaint.getLocation(),
                 complaint.getStatus(),
+                complaint.getResolution(),
                 complaint.getCreatedAt(),
                 complaint.getCompletedAt()
         );
     }
 
     @Override
-    public List<ComplaintListRes> getApartmentComplaints(Long memberId) {
+    public Page<ComplaintListRes> getApartmentComplaints(
+            Long memberId,
+            int page,
+            int size
+    ) {
 
         Member admin = getAdmin(memberId);
 
-        return complaintRepository.findAllByApartmentIdOrderByCreatedAtDesc(
-                        getApartment(admin).getId()
+        Pageable pageable = PageRequest.of(page, size);
+
+        return complaintRepository
+                .findAllByApartmentIdOrderByCreatedAtDesc(
+                        getApartment(admin).getId(),
+                        pageable
                 )
-                .stream()
                 .map(c -> new ComplaintListRes(
                         c.getId(),
                         c.getCategory(),
                         c.getTitle(),
                         c.getStatus(),
                         c.getCreatedAt()
-                ))
-                .toList();
+                ));
+    }
+
+    @Override
+    public ComplaintInfoRes getApartmentComplaint(
+            Long memberId,
+            Long complaintId
+    ) {
+
+        Member admin = getAdmin(memberId);
+        Complaint complaint = getComplaintEntity(complaintId);
+
+        validateApartment(
+                getApartment(admin).getId(),
+                complaint
+        );
+
+        return new ComplaintInfoRes(
+                complaint.getId(),
+                complaint.getMember().getName(),
+                complaint.getCategory(),
+                complaint.getTitle(),
+                complaint.getContent(),
+                complaint.getLocation(),
+                complaint.getStatus(),
+                complaint.getResolution(),
+                complaint.getCreatedAt(),
+                complaint.getCompletedAt()
+        );
     }
 
     @Override
@@ -107,7 +156,10 @@ public class ComplaintServiceImpl implements ComplaintService {
 
         validateApartment(getApartment(admin).getId(), complaint);
 
-        complaint.updateStatus(request.status());
+        complaint.updateStatus(
+                request.status(),
+                request.resolution()
+        );
     }
 
     private Member getMember(Long memberId) {

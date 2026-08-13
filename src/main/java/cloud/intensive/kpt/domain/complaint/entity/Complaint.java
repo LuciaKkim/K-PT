@@ -34,6 +34,9 @@ public class Complaint {
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Column(nullable = false, length = 100)
+    private String location;
+
     @Lob
     @Column(nullable = false)
     private String content;
@@ -41,7 +44,10 @@ public class Complaint {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     @Column(nullable = false)
-    private ComplaintStatus status = ComplaintStatus.PENDING;
+    private ComplaintStatus status = ComplaintStatus.RECEIVED;
+
+    @Column(columnDefinition = "TEXT")
+    private String resolution;
 
     @Column(nullable = false)
     @Builder.Default
@@ -49,8 +55,12 @@ public class Complaint {
 
     private LocalDateTime completedAt;
 
-    public void updateStatus(ComplaintStatus status) {
+    public void updateStatus(
+            ComplaintStatus status,
+            String resolution
+    ) {
         this.status = status;
+        this.resolution = resolution;
 
         if (status == ComplaintStatus.COMPLETED) {
             this.completedAt = LocalDateTime.now();

@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -81,8 +83,9 @@ class ComplaintControllerTest {
 
         String body = """
                 {
-                  "category":"ELEVATOR",
+                  "category":"FACILITY",
                   "title":"엘리베이터 고장",
+                  "location":"101동 엘리베이터",
                   "content":"2층에서 멈춤"
                 }
                 """;
@@ -107,29 +110,37 @@ class ComplaintControllerTest {
     @DisplayName("내 민원 목록 조회 성공")
     void getMyComplaints() throws Exception {
 
-        given(complaintService.getMyComplaints(1L))
-                .willReturn(List.of(
-                        new ComplaintListRes(
-                                1L,
-                                ComplaintCategory.ELEVATOR,
-                                "엘리베이터 고장",
-                                ComplaintStatus.PENDING,
-                                LocalDateTime.now()
-                        )
-                ));
+        Page<ComplaintListRes> page = new PageImpl<>(List.of(
+                new ComplaintListRes(
+                        1L,
+                        ComplaintCategory.FACILITY,
+                        "엘리베이터 고장",
+                        ComplaintStatus.RECEIVED,
+                        LocalDateTime.now()
+                )
+        ));
+
+        given(complaintService.getMyComplaints(1L, 0, 10))
+                .willReturn(page);
 
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(
                         createUser(),
                         null,
-                        createUser().getAuthorities());
+                        createUser().getAuthorities()
+                );
 
         mockMvc.perform(
                         get("/api/v1/complaints/me")
                                 .with(SecurityMockMvcRequestPostProcessors.authentication(auth))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0].title").value("엘리베이터 고장"));
+                .andExpect(jsonPath("$.data.content[0].title")
+                        .value("엘리베이터 고장"))
+                .andExpect(jsonPath("$.data.content[0].status")
+                        .value("RECEIVED"))
+                .andExpect(jsonPath("$.data.totalElements")
+                        .value(1));
     }
 
     @Test
@@ -140,10 +151,12 @@ class ComplaintControllerTest {
                 .willReturn(new ComplaintInfoRes(
                         1L,
                         "입주민",
-                        ComplaintCategory.ELEVATOR,
+                        ComplaintCategory.FACILITY,
                         "엘리베이터 고장",
                         "2층에서 멈춤",
-                        ComplaintStatus.PENDING,
+                        "101동 엘리베이터",   // location 추가
+                        ComplaintStatus.RECEIVED,
+                        null,                 // resolution 추가
                         LocalDateTime.now(),
                         null
                 ));
@@ -166,29 +179,37 @@ class ComplaintControllerTest {
     @DisplayName("관리자 민원 목록 조회 성공")
     void getApartmentComplaints() throws Exception {
 
-        given(complaintService.getApartmentComplaints(1L))
-                .willReturn(List.of(
-                        new ComplaintListRes(
-                                1L,
-                                ComplaintCategory.WATER,
-                                "누수",
-                                ComplaintStatus.IN_PROGRESS,
-                                LocalDateTime.now()
-                        )
-                ));
+        Page<ComplaintListRes> page = new PageImpl<>(List.of(
+                new ComplaintListRes(
+                        1L,
+                        ComplaintCategory.FACILITY,
+                        "누수",
+                        ComplaintStatus.PROCESSING,
+                        LocalDateTime.now()
+                )
+        ));
+
+        given(complaintService.getApartmentComplaints(1L, 0, 10))
+                .willReturn(page);
 
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(
                         createUser(),
                         null,
-                        createUser().getAuthorities());
+                        createUser().getAuthorities()
+                );
 
         mockMvc.perform(
                         get("/api/v1/admin/complaints")
                                 .with(SecurityMockMvcRequestPostProcessors.authentication(auth))
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0].category").value("WATER"));
+                .andExpect(jsonPath("$.data.content[0].category")
+                        .value("FACILITY"))
+                .andExpect(jsonPath("$.data.content[0].title")
+                        .value("누수"))
+                .andExpect(jsonPath("$.data.totalElements")
+                        .value(1));
     }
 
     @Test
