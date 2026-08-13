@@ -61,6 +61,7 @@ public class Notice {
     ) {
         this.title = title;
         this.content = content;
+        this.isImportant = isImportant;
         this.isEmergency = isEmergency;
         this.updatedAt = LocalDateTime.now();
     }

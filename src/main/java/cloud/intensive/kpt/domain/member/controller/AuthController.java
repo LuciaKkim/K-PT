@@ -8,16 +8,15 @@ import cloud.intensive.kpt.domain.member.dto.MemberInfoRes;
 import cloud.intensive.kpt.domain.member.service.AuthService;
 import cloud.intensive.kpt.global.response.CommonResponse;
 import cloud.intensive.kpt.global.security.dto.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Auth", description = "회원가입, 로그인 및 인증 API")
 @RestController

@@ -1,6 +1,9 @@
 package cloud.intensive.kpt.domain.complaint.controller;
 
-import cloud.intensive.kpt.domain.complaint.dto.*;
+import cloud.intensive.kpt.domain.complaint.dto.ComplaintInfoRes;
+import cloud.intensive.kpt.domain.complaint.dto.ComplaintListRes;
+import cloud.intensive.kpt.domain.complaint.dto.CreateComplaintReq;
+import cloud.intensive.kpt.domain.complaint.dto.UpdateComplaintStatusReq;
 import cloud.intensive.kpt.domain.complaint.service.ComplaintService;
 import cloud.intensive.kpt.global.response.CommonResponse;
 import cloud.intensive.kpt.global.response.ResultCode;
@@ -16,8 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "Complaint", description = "민원 등록 및 관리 API")
 @RestController
