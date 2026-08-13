@@ -1,6 +1,8 @@
 package cloud.intensive.kpt.domain.member.dto;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * 코드에 대한 전체적인 역할을 적습니다.
  * <p>
@@ -25,7 +27,11 @@ package cloud.intensive.kpt.domain.member.dto;
  */
 
 public record AuthTokenRes(
+
+        @Schema(description = "JWT Access Token")
         String accessToken,
+
+        @Schema(description = "토큰 타입", example = "Bearer")
         String tokenType
 ) {
 

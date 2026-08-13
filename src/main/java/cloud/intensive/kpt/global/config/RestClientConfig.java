@@ -15,7 +15,7 @@ public class RestClientConfig {
                 new SimpleClientHttpRequestFactory();
 
         factory.setConnectTimeout(3000);   // 연결 3초
-        factory.setReadTimeout(15000);     // 응답 15초
+        factory.setReadTimeout(20000);     // 응답 20초
 
         return RestClient.builder()
                 .requestFactory(factory)

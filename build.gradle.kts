@@ -40,6 +40,9 @@ dependencies {
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-webmvc-test")
+
+	// Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
 }
 
 tasks.withType<Test> {

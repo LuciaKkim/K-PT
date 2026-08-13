@@ -5,6 +5,10 @@ import cloud.intensive.kpt.domain.apartment.dto.UnitInfoRes;
 import cloud.intensive.kpt.domain.apartment.service.ApartmentService;
 import cloud.intensive.kpt.global.response.CommonResponse;
 import cloud.intensive.kpt.global.security.dto.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Apartment", description = "아파트 및 세대 정보 조회 API")
 @RestController
 @RequestMapping("/api/v1/apartments")
 @RequiredArgsConstructor
@@ -19,6 +24,13 @@ public class ApartmentController {
 
     private final ApartmentService apartmentService;
 
+    @Operation(
+            summary = "내 아파트 조회",
+            description = "로그인한 사용자의 소속 아파트 정보를 조회합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "401", description = "인증 실패")
     @GetMapping("/me")
     public ResponseEntity<CommonResponse<ApartmentInfoRes>> getMyApartment(
             @AuthenticationPrincipal CustomUserDetails user
@@ -31,6 +43,13 @@ public class ApartmentController {
         );
     }
 
+    @Operation(
+            summary = "내 세대 조회",
+            description = "로그인한 사용자의 동, 호수, 평형 정보를 조회합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "401", description = "인증 실패")
     @GetMapping("/me/unit")
     public ResponseEntity<CommonResponse<UnitInfoRes>> getMyUnit(
             @AuthenticationPrincipal CustomUserDetails user

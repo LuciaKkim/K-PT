@@ -5,6 +5,10 @@ import cloud.intensive.kpt.domain.complaint.service.ComplaintService;
 import cloud.intensive.kpt.global.response.CommonResponse;
 import cloud.intensive.kpt.global.response.ResultCode;
 import cloud.intensive.kpt.global.security.dto.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Complaint", description = "민원 등록 및 관리 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -20,6 +25,13 @@ public class ComplaintController {
 
     private final ComplaintService complaintService;
 
+    @Operation(
+            summary = "민원 등록",
+            description = "입주민이 시설 민원을 등록합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "201", description = "등록 성공")
+    @ApiResponse(responseCode = "401", description = "인증 실패")
     @PostMapping("/complaints")
     public ResponseEntity<CommonResponse<Void>> createComplaint(
             @AuthenticationPrincipal CustomUserDetails user,
@@ -36,6 +48,12 @@ public class ComplaintController {
         );
     }
 
+    @Operation(
+            summary = "내 민원 목록",
+            description = "로그인한 사용자가 등록한 민원 목록을 조회합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
     @GetMapping("/complaints/me")
     public ResponseEntity<CommonResponse<List<ComplaintListRes>>> getMyComplaints(
             @AuthenticationPrincipal CustomUserDetails user
@@ -48,6 +66,13 @@ public class ComplaintController {
         );
     }
 
+    @Operation(
+            summary = "민원 상세 조회",
+            description = "본인이 등록한 민원의 상세 정보를 조회합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "404", description = "민원 없음")
     @GetMapping("/complaints/{complaintId}")
     public ResponseEntity<CommonResponse<ComplaintInfoRes>> getComplaint(
             @AuthenticationPrincipal CustomUserDetails user,
@@ -64,6 +89,13 @@ public class ComplaintController {
         );
     }
 
+    @Operation(
+            summary = "관리자 민원 목록",
+            description = "관리자가 자신의 아파트 민원을 조회합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "403", description = "관리자 권한 필요")
     @GetMapping("/admin/complaints")
     public ResponseEntity<CommonResponse<List<ComplaintListRes>>> getApartmentComplaints(
             @AuthenticationPrincipal CustomUserDetails user
@@ -76,6 +108,13 @@ public class ComplaintController {
         );
     }
 
+    @Operation(
+            summary = "민원 상태 변경",
+            description = "관리자가 민원의 처리 상태를 변경합니다."
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponse(responseCode = "200", description = "변경 성공")
+    @ApiResponse(responseCode = "403", description = "관리자 권한 필요")
     @PatchMapping("/admin/complaints/{complaintId}/status")
     public ResponseEntity<CommonResponse<Void>> updateStatus(
             @AuthenticationPrincipal CustomUserDetails user,
