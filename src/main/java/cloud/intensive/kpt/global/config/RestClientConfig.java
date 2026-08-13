@@ -1,0 +1,24 @@
+package cloud.intensive.kpt.global.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
+
+@Configuration
+public class RestClientConfig {
+
+    @Bean
+    public RestClient restClient() {
+
+        SimpleClientHttpRequestFactory factory =
+                new SimpleClientHttpRequestFactory();
+
+        factory.setConnectTimeout(3000);   // 연결 3초
+        factory.setReadTimeout(15000);     // 응답 15초
+
+        return RestClient.builder()
+                .requestFactory(factory)
+                .build();
+    }
+}
