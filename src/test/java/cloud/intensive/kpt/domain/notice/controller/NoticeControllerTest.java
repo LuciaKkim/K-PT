@@ -86,7 +86,9 @@ class NoticeControllerTest {
                                 1L,
                                 "엘리베이터 점검",
                                 "관리자",
-                                LocalDateTime.of(2026, 8, 13, 10, 0)
+                                LocalDateTime.of(2026, 8, 13, 10, 0),
+                                true,
+                                false
                         )
                 ));
 

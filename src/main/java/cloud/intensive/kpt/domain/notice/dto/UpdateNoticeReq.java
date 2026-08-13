@@ -13,5 +13,17 @@ public record UpdateNoticeReq(
 
         @Schema(description = "수정된 공지 내용", example = "공사 일정이 8월 22일로 변경되었습니다.")
         @NotBlank
-        String content
+        String content,
+
+        @Schema(
+                description = "중요 공지 여부",
+                example = "true"
+        )
+                Boolean isImportant,
+
+        @Schema(
+                description = "긴급 공지 여부",
+                example = "false"
+        )
+        Boolean isEmergency
 ) {}

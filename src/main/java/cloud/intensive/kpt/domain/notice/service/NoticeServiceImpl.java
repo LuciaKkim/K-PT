@@ -42,7 +42,9 @@ public class NoticeServiceImpl implements NoticeService {
                         notice.getId(),
                         notice.getTitle(),
                         notice.getWriter().getName(),
-                        notice.getCreatedAt()
+                        notice.getCreatedAt(),
+                        notice.getIsImportant(),
+                        notice.getIsEmergency()
                 ))
                 .toList();
     }
@@ -80,6 +82,8 @@ public class NoticeServiceImpl implements NoticeService {
                 .writer(member)
                 .title(request.title())
                 .content(request.content())
+                .isImportant(request.isImportant())
+                .isEmergency(request.isEmergency())
                 .build();
 
         noticeRepository.save(notice);
@@ -102,7 +106,8 @@ public class NoticeServiceImpl implements NoticeService {
         notice.update(
                 request.title(),
                 request.content(),
-                false
+                request.isImportant(),
+                request.isEmergency()
         );
     }
 

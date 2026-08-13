@@ -16,5 +16,12 @@ public record NoticeListRes(
         String writer,
 
         @Schema(description = "작성일시")
-        LocalDateTime createdAt
-) {}
+        LocalDateTime createdAt,
+
+        @Schema(example = "false")
+        Boolean isImportant,
+
+        @Schema(example = "false")
+        Boolean isEmergency
+) {
+}

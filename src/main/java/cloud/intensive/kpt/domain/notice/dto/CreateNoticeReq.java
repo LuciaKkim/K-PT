@@ -13,5 +13,18 @@ public record CreateNoticeReq(
 
         @Schema(description = "공지 내용", example = "8월 20일부터 지하주차장 공사가 진행됩니다.")
         @NotBlank
-        String content
-) {}
+        String content,
+
+        @Schema(
+                description = "중요 공지 여부",
+                example = "true"
+        )
+        Boolean isImportant,
+
+        @Schema(
+                description = "긴급 공지 여부",
+                example = "false"
+        )
+        Boolean isEmergency
+) {
+}

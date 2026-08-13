@@ -36,6 +36,10 @@ public class Notice {
 
     @Column(nullable = false)
     @Builder.Default
+    private Boolean isImportant = false;
+
+    @Column(nullable = false)
+    @Builder.Default
     private Boolean isEmergency = false;
 
     @Enumerated(EnumType.STRING)
@@ -49,7 +53,12 @@ public class Notice {
 
     private LocalDateTime updatedAt;
 
-    public void update(String title, String content, Boolean isEmergency) {
+    public void update(
+            String title,
+            String content,
+            Boolean isImportant,
+            Boolean isEmergency
+    ) {
         this.title = title;
         this.content = content;
         this.isEmergency = isEmergency;

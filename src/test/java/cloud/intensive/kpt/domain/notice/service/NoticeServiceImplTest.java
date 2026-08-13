@@ -137,7 +137,9 @@ class NoticeServiceImplTest {
 
         CreateNoticeReq req = new CreateNoticeReq(
                 "정기 소독",
-                "8월 15일 실시"
+                "8월 15일 실시",
+                false,
+                false
         );
 
         given(memberRepository.findById(1L))
@@ -154,7 +156,9 @@ class NoticeServiceImplTest {
 
         CreateNoticeReq req = new CreateNoticeReq(
                 "정기 소독",
-                "내용"
+                "내용",
+                false,
+                false
         );
 
         given(memberRepository.findById(2L))
@@ -172,7 +176,9 @@ class NoticeServiceImplTest {
 
         UpdateNoticeReq req = new UpdateNoticeReq(
                 "수정 제목",
-                "수정 내용"
+                "수정 내용",
+                false,
+                false
         );
 
         given(memberRepository.findById(1L))
