@@ -101,7 +101,8 @@ public class NoticeServiceImpl implements NoticeService {
 
         notice.update(
                 request.title(),
-                request.content()
+                request.content(),
+                false
         );
     }
 

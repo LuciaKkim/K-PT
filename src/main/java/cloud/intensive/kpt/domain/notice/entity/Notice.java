@@ -34,9 +34,13 @@ public class Notice {
     @Column(nullable = false)
     private String content;
 
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
     @Column(nullable = false)
+    @Builder.Default
+    private Boolean isEmergency = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
     private NoticeStatus status = NoticeStatus.ACTIVE;
 
     @Column(nullable = false)
@@ -45,9 +49,10 @@ public class Notice {
 
     private LocalDateTime updatedAt;
 
-    public void update(String title, String content) {
+    public void update(String title, String content, Boolean isEmergency) {
         this.title = title;
         this.content = content;
+        this.isEmergency = isEmergency;
         this.updatedAt = LocalDateTime.now();
     }
 
