@@ -41,12 +41,29 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Unit unit = unitRepository.findById(dto.unitId())
-                .orElseThrow(() ->
-                        new BaseException(
-                                ErrorCode.UNIT_NOT_FOUND,
-                                "[AuthServiceImpl#signup] unit not found",
-                                "존재하지 않는 호수입니다."
-                        ));
+                .orElseThrow(() -> new BaseException(
+                        ErrorCode.UNIT_NOT_FOUND,
+                        "[AuthServiceImpl#signup] unit not found",
+                        "존재하지 않는 호수입니다."
+                ));
+
+        // 선택한 동 검증
+        if (!unit.getBuilding().getId().equals(dto.buildingId())) {
+            throw new BaseException(
+                    ErrorCode.INVALID_REQUEST,
+                    "[AuthServiceImpl#signup] building mismatch",
+                    "선택한 동 정보가 올바르지 않습니다."
+            );
+        }
+
+        // 선택한 아파트 검증
+        if (!unit.getBuilding().getApartment().getId().equals(dto.apartmentId())) {
+            throw new BaseException(
+                    ErrorCode.INVALID_REQUEST,
+                    "[AuthServiceImpl#signup] apartment mismatch",
+                    "선택한 아파트 정보가 올바르지 않습니다."
+            );
+        }
 
         Member member = Member.builder()
                 .name(dto.name())

@@ -77,13 +77,15 @@ class AuthServiceImplTest {
         CreateMemberReq req = new CreateMemberReq(
                 "한민희",
                 "test@test.com",
-                "1234",
-                1L
+                "12345678",
+                1L, // apartmentId
+                1L, // buildingId
+                1L  // unitId
         );
 
         given(memberRepository.existsByEmail(req.email())).willReturn(false);
         given(unitRepository.findById(1L)).willReturn(Optional.of(unit));
-        given(passwordEncoder.encode("1234")).willReturn("encoded");
+        given(passwordEncoder.encode(anyString())).willReturn("encoded");
 
         // when
         authService.signup(req);
@@ -97,10 +99,12 @@ class AuthServiceImplTest {
     void shouldThrowDuplicateEmail() {
 
         CreateMemberReq req = new CreateMemberReq(
-                "test@test.com",
-                "1234",
                 "한민희",
-                1L
+                "test@test.com",
+                "12345678",
+                1L, // apartmentId
+                1L, // buildingId
+                1L  // unitId
         );
 
         given(memberRepository.existsByEmail(req.email())).willReturn(true);
@@ -116,10 +120,12 @@ class AuthServiceImplTest {
     void shouldThrowUnitNotFound() {
 
         CreateMemberReq req = new CreateMemberReq(
-                "test@test.com",
-                "1234",
                 "한민희",
-                1L
+                "test@test.com",
+                "12345678",
+                1L, // apartmentId
+                1L, // buildingId
+                1L  // unitId
         );
 
         given(memberRepository.existsByEmail(any())).willReturn(false);
@@ -192,5 +198,49 @@ class AuthServiceImplTest {
                 .isInstanceOf(BaseException.class)
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.MEMBER_NOT_FOUND);
+    }
+
+    @Test
+    @DisplayName("동 정보가 일치하지 않으면 회원가입 실패")
+    void shouldThrowBuildingMismatch() {
+
+        CreateMemberReq req = new CreateMemberReq(
+                "한민희",
+                "test@test.com",
+                "12345678",
+                1L,
+                2L,
+                1L
+        );
+
+        given(memberRepository.existsByEmail(any())).willReturn(false);
+        given(unitRepository.findById(1L)).willReturn(Optional.of(unit));
+
+        assertThatThrownBy(() -> authService.signup(req))
+                .isInstanceOf(BaseException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.INVALID_REQUEST);
+    }
+
+    @Test
+    @DisplayName("아파트 정보가 일치하지 않으면 회원가입 실패")
+    void shouldThrowApartmentMismatch() {
+
+        CreateMemberReq req = new CreateMemberReq(
+                "한민희",
+                "test@test.com",
+                "12345678",
+                2L,
+                1L,
+                1L
+        );
+
+        given(memberRepository.existsByEmail(any())).willReturn(false);
+        given(unitRepository.findById(1L)).willReturn(Optional.of(unit));
+
+        assertThatThrownBy(() -> authService.signup(req))
+                .isInstanceOf(BaseException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.INVALID_REQUEST);
     }
 }

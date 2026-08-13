@@ -29,9 +29,16 @@ public class AuthController {
 
     @Operation(
             summary = "회원가입",
-            description = "이름, 이메일, 비밀번호, 호수를 입력하여 입주민 계정을 생성합니다."
+            description = """
+                입주민 계정을 생성합니다.
+
+                회원가입 전 조회 API를 이용하여
+                아파트 → 동 → 호수를 선택한 뒤
+                선택된 ID를 전달합니다.
+                """
     )
     @ApiResponse(responseCode = "201", description = "회원가입 성공")
+    @ApiResponse(responseCode = "400", description = "잘못된 아파트/동/호수 선택")
     @ApiResponse(responseCode = "409", description = "중복 이메일")
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse<Void>> signup(

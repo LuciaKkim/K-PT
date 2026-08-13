@@ -47,9 +47,13 @@ public class SecurityConfig {
                         "/api/v1/auth/signup",
                         "/api/v1/auth/login",
 
-                        // Swagger
+                        // 회원 가입 시 조회 필요
+                        "/api/v1/apartments",
+                        "/api/v1/apartments/*/buildings",
+                        "/api/v1/apartments/buildings/*/units",
+
+                        // swagger
                         "/swagger-ui/**",
-                        "/swagger-ui.html",
                         "/v3/api-docs/**"
                 ).permitAll()
                 .anyRequest().authenticated()

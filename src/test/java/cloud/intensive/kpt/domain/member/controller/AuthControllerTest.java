@@ -82,6 +82,8 @@ class AuthControllerTest {
                   "email":"test@test.com",
                   "password":"12345678",
                   "name":"한민희",
+                  "apartmentId":1,
+                  "buildingId":1,
                   "unitId":1
                 }
                 """;
@@ -105,6 +107,8 @@ class AuthControllerTest {
                   "email":"test@test.com",
                   "password":"1234",
                   "name":"한민희",
+                  "apartmentId":1,
+                  "buildingId":1,
                   "unitId":1
                 }
                 """;
@@ -126,6 +130,8 @@ class AuthControllerTest {
                   "email":"test@test.com",
                   "password":"12345678",
                   "name":"",
+                  "apartmentId":1,
+                  "buildingId":1,
                   "unitId":1
                 }
                 """;
