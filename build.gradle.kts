@@ -39,6 +39,7 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testCompileOnly("org.projectlombok:lombok")
 	testAnnotationProcessor("org.projectlombok:lombok")
+	testImplementation("org.springframework.boot:spring-boot-webmvc-test")
 }
 
 tasks.withType<Test> {

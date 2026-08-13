@@ -44,6 +44,30 @@ public enum ErrorCode {
             "요청을 처리할 수 없습니다."
     ),
 
+    DUPLICATE_EMAIL(
+            HttpStatus.CONFLICT,
+            "409-2",
+            "이미 가입된 이메일입니다."
+    ),
+
+    MEMBER_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "404-1",
+            "존재하지 않는 회원입니다."
+    ),
+
+    UNIT_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "404-2",
+            "존재하지 않는 호수입니다."
+    ),
+
+    INVALID_PASSWORD(
+            HttpStatus.UNAUTHORIZED,
+            "401-2",
+            "이메일 또는 비밀번호가 올바르지 않습니다."
+    ),
+
     INTERNAL_SERVER_ERROR(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "500-1",
