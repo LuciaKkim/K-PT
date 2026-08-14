@@ -30,14 +30,23 @@ interface RequestOptions {
   signal?: AbortSignal;
 }
 
+/**
+ * API_BASE_URL 이 비어 있으면 same-origin 상대 경로를 만듭니다.
+ * (Next 서버의 /api/v1/* rewrite 가 http 백엔드로 중계 → https 환경에서도 안전)
+ */
 function buildUrl(path: string, params?: RequestOptions["params"]) {
-  const url = new URL(path, API_BASE_URL);
+  const query = new URLSearchParams();
   if (params) {
     for (const [key, value] of Object.entries(params)) {
-      if (value !== undefined) url.searchParams.set(key, String(value));
+      if (value !== undefined) query.set(key, String(value));
     }
   }
-  return url.toString();
+  const search = query.toString();
+  const relative = search
+    ? `${path}${path.includes("?") ? "&" : "?"}${search}`
+    : path;
+
+  return API_BASE_URL ? new URL(relative, API_BASE_URL).toString() : relative;
 }
 
 /**
