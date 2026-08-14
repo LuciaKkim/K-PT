@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pretendard — 본문/UI 텍스트 (Variable, weight 45~920 전체 범위 지원) */
+@font-face {
+  font-family: "Pretendard Variable";
+  src: url("/fonts/pretendard/PretendardVariable.woff2") format("woff2");
+  font-weight: 45 920;
+  font-display: swap;
+}
+
+/* 전남교육청 서체 — 본문 전용 (font-body). Light/Bold 두 웨이트만 사용 (Regular/ExtraBold 미사용) */
+@font-face {
+  font-family: "Jeonnam";
+  src: url("/fonts/jeonnam/Jeonnam-Light.otf") format("opentype");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Jeonnam";
+  src: url("/fonts/jeonnam/Jeonnam-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* MBK Corporate(벤츠) — 제목/헤드라인 + 브랜드 워드마크/CTA 전용 (font-display, font-brand) */
+@font-face {
+  font-family: "MBK Corporate";
+  src: url("/fonts/mbk/MBK-Light.woff") format("woff");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "MBK Corporate";
+  src: url("/fonts/mbk/MBK-Regular.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    word-break: keep-all;
+  }
+
+  /* 제목류는 항상 전남교육청 서체(Jeonnam)를 기본으로 사용 — 굳이 font-display 클래스를 안 붙여도 적용됨 */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: theme("fontFamily.display");
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.accent-deep");
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /*
+   * 스크롤바 전면 숨김.
+   * 폰 목업 안에서 스크롤바가 보이면 프레임 밖으로 삐져나온 것처럼 보여서,
+   * 문서와 프레임 내부의 모든 스크롤 영역에서 스크롤바를 감춥니다. (스크롤 자체는 그대로 동작)
+   */
+  html,
+  body,
+  .phone-screen,
+  .phone-screen * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  .phone-screen::-webkit-scrollbar,
+  .phone-screen *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
+
+/*
+ * 폰 목업 프레임 (PhoneFrame). 화면을 꽉 채우지 않고 상·하단 여백을 남깁니다.
+ *  - --phone-gap: 상·하단 여백, --phone-bezel: 베젤 두께
+ *  - 스크린 비율은 444 : 924 (베젤 포함 기준)
+ */
+.phone-stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+      120% 100% at 50% 0%,
+      theme("colors.surface-2") 0%,
+      theme("colors.surface") 60%,
+      theme("colors.surface-tint") 100%
+    ),
+    theme("colors.surface");
+}
+
+.phone-shell {
+  --phone-gap: 30px;
+  --phone-bezel: 11px;
+  width: min(
+    444px,
+    calc(100vw - var(--phone-gap) * 2),
+    calc((100svh - var(--phone-gap) * 2) * 444 / 924)
+  );
+  aspect-ratio: 444 / 924;
+  flex: none;
+  padding: var(--phone-bezel);
+  border-radius: 50px;
+  background: linear-gradient(
+    160deg,
+    oklch(0.32 0.012 20) 0%,
+    oklch(0.16 0.008 20) 38%,
+    oklch(0.2 0.01 20) 100%
+  );
+  box-shadow:
+    0 30px 60px -18px oklch(0.265 0.024 20 / 0.45),
+    0 6px 18px -6px oklch(0.265 0.024 20 / 0.3);
+}
+
+.phone-screen {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 40px;
+  /* 내부 position:fixed 요소(탭바·오버레이)를 이 스크린 기준으로 고정 */
+  transform: translateZ(0);
+}
+
+@media (max-width: 639px) {
+  .phone-shell {
+    width: 100%;
+    height: 100svh;
+    aspect-ratio: auto;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .phone-screen {
+    border-radius: 0;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 폴링으로 새로 도착한 목록 항목의 등장 효과 */
+  .item-arrive {
+    animation: item-arrive 0.5s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+}
+
+@keyframes item-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

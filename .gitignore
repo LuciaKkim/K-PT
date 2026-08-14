@@ -5,3 +5,6 @@ node_modules/
 out/
 .env*.local
 next-env.d.ts
+
+# 백엔드 서버 주소가 담긴 Swagger 덤프 — 공개 저장소에 올리지 않습니다.
+docs/api-docs.json
