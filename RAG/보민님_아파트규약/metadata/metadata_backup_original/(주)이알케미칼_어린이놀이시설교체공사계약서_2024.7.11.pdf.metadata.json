@@ -1,0 +1,109 @@
+{
+  "metadataAttributes": {
+    "document_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "공사계약서"
+      },
+      "includeForEmbedding": true
+    },
+    "category": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "시설공사"
+      },
+      "includeForEmbedding": true
+    },
+    "property": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "organization": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "source_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "construction_contract"
+      },
+      "includeForEmbedding": false
+    },
+    "language": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "ko"
+      },
+      "includeForEmbedding": false
+    },
+    "contractor": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "(주)이알케미칼"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_name": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024년도 잠실엘스아파트 어린이놀이시설 교체공사"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-07-11"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_start_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-08-19"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_end_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-09-18"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_amount": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 315700000
+      },
+      "includeForEmbedding": false
+    },
+    "warranty_period_years": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 3
+      },
+      "includeForEmbedding": false
+    },
+    "apartment_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "APT001"
+      },
+      "includeForEmbedding": false
+    },
+    "is_public": {
+      "value": {
+        "type": "BOOLEAN",
+        "booleanValue": false
+      },
+      "includeForEmbedding": false
+    }
+  }
+}

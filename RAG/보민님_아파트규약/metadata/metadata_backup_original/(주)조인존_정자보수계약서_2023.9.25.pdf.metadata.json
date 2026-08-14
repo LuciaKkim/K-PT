@@ -1,0 +1,109 @@
+{
+  "metadataAttributes": {
+    "document_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "공사계약서"
+      },
+      "includeForEmbedding": true
+    },
+    "category": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "시설공사"
+      },
+      "includeForEmbedding": true
+    },
+    "property": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "organization": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "source_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "construction_contract"
+      },
+      "includeForEmbedding": false
+    },
+    "language": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "ko"
+      },
+      "includeForEmbedding": false
+    },
+    "contractor": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "(주)조인존"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_name": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "정자 보수공사"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2023-09-04"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_start_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2023-09-18"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_end_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2023-09-27"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_amount": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 9108000
+      },
+      "includeForEmbedding": false
+    },
+    "warranty_period_months": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 24
+      },
+      "includeForEmbedding": false
+    },
+    "apartment_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "APT001"
+      },
+      "includeForEmbedding": false
+    },
+    "is_public": {
+      "value": {
+        "type": "BOOLEAN",
+        "booleanValue": false
+      },
+      "includeForEmbedding": false
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "metadataAttributes": {
+    "document_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "용역계약서"
+      },
+      "includeForEmbedding": true
+    },
+    "category": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "경비"
+      },
+      "includeForEmbedding": true
+    },
+    "property": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "organization": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "source_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "service_contract"
+      },
+      "includeForEmbedding": false
+    },
+    "language": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "ko"
+      },
+      "includeForEmbedding": false
+    },
+    "contractor": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "에스케이쉴더스 주식회사"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_name": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스 아파트 통합경비 계약"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-08-29"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_start_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-09-01"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_end_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2027-02-28"
+      },
+      "includeForEmbedding": false
+    },
+    "monthly_fee_krw": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 194220000
+      },
+      "includeForEmbedding": false
+    },
+    "households": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 5678
+      },
+      "includeForEmbedding": false
+    },
+    "apartment_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "APT001"
+      },
+      "includeForEmbedding": false
+    },
+    "is_public": {
+      "value": {
+        "type": "BOOLEAN",
+        "booleanValue": false
+      },
+      "includeForEmbedding": false
+    }
+  }
+}

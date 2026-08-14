@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아파톡 (ApaTalk) - 프리미엄 스마트 아파트 플랫폼</title>
+<!-- Pretendard 웹폰트 CDN 추가 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --accent: #2d5a47;          /* 메인 그린 */
+    --accent-dark: #1b382c;     /* 다크 그린 */
+    --accent-light: #e8f0ec;    /* 세이지 그린 틴트 */
+    --accent-light2: #d2e3d9;   
+    --bg-screen: #f7f5f0;       /* 웜 베이지 배경 */
+    --text-main: #1c1c1c;
+    --text-sub: #777777;
+    --border-color: #e5e0d8;
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  body{
+    margin:0;
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    letter-spacing: -0.015em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #e2dfd4;
+    color: var(--text-main);
+  }
+
+  /* ---- 히어로 스크롤 섹션 ---- */
+  .hero-spacer{
+    height: 250vh;
+    position: relative;
+  }
+  .hero-sticky{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    overflow: hidden;
+    padding: 0 12px;
+  }
+  .hero-title{
+    margin:0; font-size:15px; font-weight:600; color:#333; letter-spacing:-0.02em;
+    will-change: opacity, transform;
+  }
+  .stage{
+    perspective: 1400px;
+  }
+  .phone-shell{
+    width:348px;
+    background:#121212;
+    border-radius:42px;
+    padding:12px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.1) inset;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .screen{
+    background: var(--bg-screen);
+    border-radius:32px;
+    overflow:hidden;
+    height:712px;
+    position:relative;
+    opacity:0;
+    transition: opacity .05s linear;
+  }
+
+  /* ---- 홈 화면 ---- */
+  #home{
+    display:flex; flex-direction:column; height:100%;
+    transition: transform .45s var(--ease-smooth), filter .45s var(--ease-smooth);
+    transform-origin:center top;
+  }
+  #home.dimmed{ transform:scale(.95); filter:brightness(.92) blur(1px); }
+  
+  .home-header{
+    padding:22px 20px 14px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .home-header .addr p:first-child{ margin:0; font-size:11.5px; color:var(--text-sub); font-weight:500; }
+  .home-header .addr p:last-child{ margin:2px 0 0; font-size:17px; font-weight:700; color:var(--text-main); letter-spacing:-0.02em; }
+  
+  .header-actions { display:flex; align-items:center; gap:8px; }
+  .login-badge{
+    font-size:11px; font-weight:600; color:var(--accent); background:var(--accent-light);
+    padding:6px 12px; border-radius:14px; cursor:pointer; border:none;
+    transition: all .2s ease;
+  }
+  .login-badge:active{ transform:scale(0.95); background:var(--accent-light2); }
+  
+  .bell{
+    width:36px; height:36px; border-radius:50%; background:#eae5dc;
+    display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer;
+  }
+
+  .notice-card{
+    margin:4px 20px 18px; background:var(--accent-light); border-radius:16px; padding:15px 18px;
+    border: 1px solid rgba(45,90,71,0.08);
+  }
+  .notice-card p:first-child{ margin:0; font-size:11.5px; color:var(--accent); font-weight:600; }
+  .notice-card p:last-child{ margin:5px 0 0; font-size:14px; color:#1a2b23; font-weight:700; }
+
+  .grid{
+    padding:0 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px 8px;
+  }
+  .grid-item{ text-align:center; cursor:pointer; transition: transform .2s var(--ease-smooth); }
+  .grid-item:active{ transform:scale(.92); }
+  .grid-icon{
+    width:52px; height:52px; border-radius:18px; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 6px; font-size:22px; background:#fff; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .grid-item p{ margin:0; font-size:11px; color:#444; font-weight:500; }
+
+  .fab{
+    position:absolute; right:20px; bottom:78px; width:56px; height:56px; border-radius:28px;
+    background:var(--accent); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(45,90,71,0.35); cursor:pointer; border:none; z-index:5;
+    transition: transform .25s var(--ease-smooth), box-shadow .25s var(--ease-smooth);
+  }
+  .fab:active{ transform:scale(.9); }
+  .fab span{ font-size:24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+
+  .tabbar{
+    position:absolute; bottom:0; left:0; right:0; height:60px; background:#fff;
+    border-top:0.5px solid var(--border-color); display:flex; align-items:center; justify-content:space-around;
+  }
+  .tabbar span{ font-size:20px; color:#bbb; transition: color .25s ease; cursor:pointer; }
+  .tabbar span.active{ color:var(--accent); }
+
+  /* ---- 공통 오버레이 스타일 (Chat / Feature / Login) ---- */
+  .sub-overlay {
+    position:absolute; inset:0; background:var(--bg-screen); display:flex; flex-direction:column; z-index:10;
+    transform: translateY(100%);
+    opacity:0;
+    pointer-events:none;
+    transition: transform .45s var(--ease-smooth), opacity .35s ease;
+    border-radius:32px;
+  }
+  .sub-overlay.open { transform: translateY(0); opacity:1; pointer-events:auto; }
+
+  .sub-header{
+    background:#fff; padding:16px 20px; display:flex; align-items:center; gap:12px;
+    border-bottom:0.5px solid var(--border-color);
+  }
+  .sub-header .back{ font-size:20px; color:#333; cursor:pointer; background:none; border:none; padding:0; transition: transform .2s ease; }
+  .sub-header .back:active{ transform:translateX(-3px); }
+
+  /* ---- 챗봇 오버레이 전용 ---- */
+  #chatOverlay { background: #fbf9f5; }
+  .chat-header-info .title{ margin:0; font-size:14px; font-weight:700; color:#111; letter-spacing:-0.02em; }
+  .chat-header-info .sub{ margin:1px 0 0; font-size:11px; color:var(--text-sub); }
+  .chat-avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--accent-light); display:flex;
+    align-items:center; justify-content:center; font-size:16px;
+  }
+
+  .chat-body{
+    flex:1; padding:16px; display:flex; flex-direction:column; gap:12px; overflow-y:auto;
+  }
+  .msg{
+    max-width:85%; display:flex; flex-direction:column; gap:6px;
+    animation: msgIn .35s var(--ease-smooth);
+  }
+  @keyframes msgIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .msg.user{ align-self:flex-end; align-items:flex-end; }
+  .msg.bot{ align-self:flex-start; align-items:flex-start; }
+  .bubble{
+    padding:11px 14px; border-radius:16px; font-size:13px; line-height:1.55;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  }
+  .msg.user .bubble{ background:var(--accent); color:#fff; border-bottom-right-radius:4px; }
+  .msg.bot .bubble{ background:#fff; color:#222; border-bottom-left-radius:4px; border: 1px solid var(--border-color); }
+  
+  .source-chip{
+    font-size:10.5px; color:var(--accent); background:var(--accent-light); padding:3.5px 9px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:4px; font-weight:500;
+  }
+  .action-card{
+    background:#fff; border:1px solid var(--border-color); border-radius:14px; padding:12px 14px; margin-top:2px;
+    width:100%; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .action-card p{ margin:0 0 8px; font-size:12px; color:#555; font-weight:500; }
+  .action-btn{
+    width:100%; background:var(--accent); color:#fff; border:none; border-radius:10px;
+    padding:10px 0; font-size:13px; font-weight:600; cursor:pointer;
+    transition: transform .2s var(--ease-smooth), background .2s ease;
+  }
+  .action-btn:active{ transform:scale(.97); background:var(--accent-dark); }
+  
+  .typing{
+    display:flex; gap:4px; padding:12px 14px; background:#fff; border-radius:16px;
+    border-bottom-left-radius:4px; width:fit-content; border: 1px solid var(--border-color);
+  }
+  .typing span{ width:5px; height:5px; border-radius:50%; background:#aaa; opacity:.4; animation:blink 1.1s infinite; }
+  .typing span:nth-child(2){ animation-delay:.15s; }
+  .typing span:nth-child(3){ animation-delay:.3s; }
+  @keyframes blink{ 0%,80%,100%{opacity:.3;} 40%{opacity:1;} }
+
+  .suggested{ padding:8px 14px; display:flex; gap:6px; flex-wrap:wrap; background: #fbf9f5; }
+  .suggested button{
+    font-size:11px; background:#fff; border:1px solid var(--border-color); border-radius:16px;
+    padding:7px 12px; color:#555; cursor:pointer; font-weight:500;
+    transition: all .2s ease;
+  }
+  .suggested button:active{ transform:scale(.95); background:var(--accent-light); border-color:var(--accent-light2); }
+  
+  .chat-input{
+    background:#fff; padding:12px 14px; display:flex; gap:8px; border-top:0.5px solid var(--border-color);
+  }
+  .chat-input input{
+    flex:1; background:#f4f1eb; border:none; border-radius:20px; padding:10px 16px; font-size:12.5px; outline:none;
+    transition: background .2s ease;
+  }
+  .chat-input input:focus{ background:var(--accent-light); }
+  .send-btn{
+    width:36px; height:36px; border-radius:50%; background:var(--accent); border:none; color:#fff;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+    transition: transform .2s var(--ease-smooth);
+  }
+  .send-btn:active{ transform:scale(.88); }
+
+  /* ---- 기능 및 로그인 서브 화면 공통 ---- */
+  #featureOverlay, #loginOverlay {
+    transform: translateX(100%);
+    transition: transform .4s var(--ease-smooth), opacity .3s ease;
+  }
+  #featureOverlay.open, #loginOverlay.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .content-body{ padding:24px 20px; animation: fadeIn .4s var(--ease-smooth); }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .content-body h3{ font-size:16px; margin:0 0 6px; color:#111; font-weight:700; letter-spacing:-0.02em; }
+  .content-body p{ font-size:13px; color:var::text-sub; margin:0 0 24px; line-height:1.4; }
+  
+  .field-row{ margin-bottom:16px; }
+  .field-row label{ font-size:12px; color:#555; display:block; margin-bottom:6px; font-weight:600; }
+  .field-row input{
+    width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border-color); font-size:13.5px; background:#fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field-row input:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-light); }
+  
+  .confirm-btn{
+    width:100%; background:var(--accent); color:#fff; border:none; border-radius:14px; padding:14px 0;
+    font-size:14px; font-weight:600; margin-top:8px; cursor:pointer;
+    transition: transform .2s var(--ease-smooth), background .2s ease;
+    box-shadow: 0 4px 12px rgba(45,90,71,0.25);
+  }
+  .confirm-btn:active{ transform:scale(.97); background:var(--accent-dark); }
+
+  .caption{ text-align:center; font-size:12px; color:#777; margin-top:12px; }
+</style>
+</head>
+<body>
+
+<div class="hero-spacer" id="heroSpacer">
+<div class="hero-sticky">
+<p class="hero-title" id="heroTitle">📱 스크롤해서 아파톡(ApaTalk)을 만나보세요</p>
+<div class="stage">
+<div class="phone-shell" id="phoneShell">
+  <div class="screen" id="screen">
+
+    <!-- HOME -->
+    <div id="home">
+      <div class="home-header">
+        <div class="addr">
+          <p>청록아파트</p>
+          <p id="userAddrText">102동 1502호</p>
+        </div>
+        <div class="header-actions">
+          <button class="login-badge" id="loginBadgeBtn" onclick="openLogin()">로그인</button>
+          <div class="bell" title="알림">🔔</div>
+        </div>
+      </div>
+
+      <div class="notice-card">
+        <p>공지사항</p>
+        <p>8/15(금) 정기 소방점검 안내</p>
+      </div>
+
+      <div class="grid">
+        <div class="grid-item"><div class="grid-icon">📢</div><p>공지사항</p></div>
+        <div class="grid-item" onclick="openFeature('complaint')"><div class="grid-icon">📝</div><p>민원신청</p></div>
+        <div class="grid-item"><div class="grid-icon">🗳️</div><p>전자투표</p></div>
+        <div class="grid-item" onclick="openFeature('visitor')"><div class="grid-icon">🚗</div><p>방문차량</p></div>
+        <div class="grid-item"><div class="grid-icon">🚪</div><p>공동현관</p></div>
+        <div class="grid-item"><div class="grid-icon">🏠</div><p>스마트홈</p></div>
+        <div class="grid-item"><div class="grid-icon">🏊</div><p>커뮤니티</p></div>
+        <div class="grid-item"><div class="grid-icon">📰</div><p>게시판</p></div>
+      </div>
+
+      <button class="fab" onclick="openChat()" aria-label="챗봇 열기"><span>💬</span></button>
+
+      <div class="tabbar">
+        <span class="active">🏠</span><span>🏢</span><span>👥</span><span onclick="openLogin()">👤</span>
+      </div>
+    </div>
+
+    <!-- CHAT OVERLAY -->
+    <div id="chatOverlay" class="sub-overlay">
+      <div class="sub-header">
+        <button class="back" onclick="closeChat()">←</button>
+        <div class="chat-avatar">💬</div>
+        <div class="chat-header-info">
+          <p class="title">아파톡 생활 도우미</p>
+          <p class="sub">규정 질문부터 민원·방문차량까지 안내해드려요</p>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg bot"><div class="bubble">안녕하세요! 청록아파트 아파톡입니다. 관리규약 문의나 방문차량 등록, 민원 접수를 도와드릴까요?</div></div>
+      </div>
+      <div class="suggested" id="suggested">
+        <button data-q="방문차량 몇 시간까지 주차 가능해?">방문차량 몇 시간까지 주차 가능해?</button>
+        <button data-q="층간소음 민원 넣고 싶어">층간소음 민원 넣고 싶어</button>
+        <button data-q="관리비 연체하면 어떻게 돼?">관리비 연체하면 어떻게 돼?</button>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="메시지를 입력하세요">
+        <button class="send-btn" id="sendBtn" aria-label="전송">↑</button>
+      </div>
+    </div>
+
+    <!-- FEATURE SUB-SCREEN -->
+    <div id="featureOverlay" class="sub-overlay">
+      <div class="sub-header">
+        <button class="back" onclick="closeFeature()">←</button>
+        <p style="margin:0; font-size:15px; font-weight:700;" id="featureTitle">방문차량 등록</p>
+      </div>
+      <div class="content-body" id="featureBody"></div>
+    </div>
+
+    <!-- LOGIN SUB-SCREEN -->
+    <div id="loginOverlay" class="sub-overlay">
+      <div class="sub-header">
+        <button class="back" onclick="closeLogin()">←</button>
+        <p style="margin:0; font-size:15px; font-weight:700;">아파톡 입주민 인증</p>
+      </div>
+      <div class="content-body" id="loginBody">
+        <h3>청록아파트 간편 로그인</h3>
+        <p>세대 동·호수와 연락처로 간편하게 인증하세요.</p>
+        <div class="field-row"><label>동 / 호수</label><input type="text" id="loginDong" value="102동 1502호"></div>
+        <div class="field-row"><label>휴대폰 번호</label><input type="text" id="loginPhone" value="010-9876-5432"></div>
+        <button class="confirm-btn" onclick="submitLogin()">인증 및 로그인</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<p class="caption">💬 스크롤이 끝나면 버튼으로 아파톡(ApaTalk)을 시작해보세요</p>
+</div>
+</div>
+
+<script>
+// ---- 가상 지식베이스 ----
+const KB = [
+  {id:"parking-8-3", cat:"info", kws:["방문","방문차량","몇 시간","시간까지","주차"],
+   answer:"방문 차량은 관리사무소에 미리 등록하면 방문자 구역에 최대 4시간까지 주차할 수 있어요.",
+   source:"청록아파트 주차 관리 규정 제8조 3항",
+   action:{type:"visitor", label:"방문차량 지금 등록하기"}},
+  {id:"noise-12-2", cat:"info", kws:["층간소음","민원","소음","시끄러"],
+   answer:"층간소음 기준(주간 40dB·야간 35dB)을 초과하는 소음이 지속되면 공식 민원 접수 대상이 됩니다. 바로 접수해 드릴까요?",
+   source:"청록아파트 층간소음 규정 제12조",
+   action:{type:"complaint", label:"민원 지금 접수하기"}},
+  {id:"fee-5-2", cat:"info", kws:["관리비","연체","가산금","독촉"],
+   answer:"관리비를 30일 넘게 연체하면 연 12% 이내의 연체가산금이 부과되며, 3개월 이상 체납 시 단전·단수 조치가 진행될 수 있어요.",
+   source:"청록아파트 관리규약 제5조 2항", action:null},
+  {id:"pet-15-1", cat:"info", kws:["반려동물","강아지","고양이","마리"],
+   answer:"반려동물은 세대당 2마리까지 사육 가능하며, 단지 내 공용 공간에서는 반드시 목줄 착용 및 배변 수거를 해주셔야 합니다.",
+   source:"청록아파트 생활 규정 제15조", action:null}
+];
+
+function retrieve(query){
+  const q = query.toLowerCase();
+  let best = null, bestScore = 0;
+  KB.forEach(d => {
+    let score = 0;
+    d.kws.forEach(k => { if(q.includes(k.toLowerCase())) score += 1; });
+    if(score > bestScore){ bestScore = score; best = d; }
+  });
+  return bestScore > 0 ? best : null;
+}
+
+// ---- UI 제어 및 스크롤 연동 ----
+const home = document.getElementById("home");
+const phoneShell = document.getElementById("phoneShell");
+const heroSpacer = document.getElementById("heroSpacer");
+const heroTitle = document.getElementById("heroTitle");
+const screenEl = document.getElementById("screen");
+
+function clamp(v, min, max){ return Math.min(Math.max(v, min), max); }
+
+function updateHeroProgress(){
+  const scrollable = heroSpacer.offsetHeight - window.innerHeight;
+  const rect = heroSpacer.getBoundingClientRect();
+  let progress = scrollable > 0 ? (-rect.top) / scrollable : 1;
+  progress = clamp(progress, 0, 1);
+
+  const angle = -75 * (1 - progress);
+  const scale = 0.75 + 0.25 * progress;
+  phoneShell.style.transform = `rotateY(${angle}deg) scale(${scale})`;
+  screenEl.style.opacity = clamp((progress - 0.4) / 0.4, 0, 1);
+
+  const titleOpacity = clamp(1 - progress / 0.25, 0, 1);
+  heroTitle.style.opacity = titleOpacity;
+  heroTitle.style.transform = `translateY(${-12 * (1 - titleOpacity)}px)`;
+}
+
+let ticking = false;
+window.addEventListener("scroll", () => {
+  if(!ticking){
+    requestAnimationFrame(() => { updateHeroProgress(); ticking = false; });
+    ticking = true;
+  }
+}, { passive:true });
+window.addEventListener("resize", updateHeroProgress);
+updateHeroProgress();
+
+// ---- 챗봇 상호작용 ----
+const chatOverlay = document.getElementById("chatOverlay");
+const chatBody = document.getElementById("chatBody");
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+function openChat(){
+  chatOverlay.classList.add("open");
+  home.classList.add("dimmed");
+}
+function closeChat(){
+  chatOverlay.classList.remove("open");
+  home.classList.remove("dimmed");
+}
+
+function escapeHtml(str){ const d=document.createElement("div"); d.textContent=str; return d.innerHTML; }
+function scrollBottom(){ chatBody.scrollTo({ top: chatBody.scrollHeight, behavior:"smooth" }); }
+
+function appendUser(text){
+  const div = document.createElement("div");
+  div.className = "msg user";
+  div.innerHTML = `<div class="bubble"></div>`;
+  div.querySelector(".bubble").textContent = text;
+  chatBody.appendChild(div); scrollBottom();
+}
+
+function appendTyping(){
+  const div = document.createElement("div");
+  div.className = "msg bot"; div.id = "typing";
+  div.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+  chatBody.appendChild(div); scrollBottom();
+}
+function removeTyping(){ const el = document.getElementById("typing"); if(el) el.remove(); }
+
+function appendBot(match){
+  const div = document.createElement("div");
+  div.className = "msg bot";
+
+  if(!match){
+    div.innerHTML = `<div class="bubble">관련 규정을 찾지 못했어요. 관리사무소(☎ 02-123-4567)로 문의해 주시겠어요?</div>`;
+    chatBody.appendChild(div); scrollBottom();
+    return;
+  }
+
+  let actionHtml = "";
+  if(match.action){
+    actionHtml = `
+      <div class="action-card">
+        <p>원하시는 서비스로 바로 연결해 드릴까요?</p>
+        <button class="action-btn" onclick="openFeature('${match.action.type}')">${escapeHtml(match.action.label)}</button>
+      </div>`;
+  }
+
+  div.innerHTML = `
+    <div class="bubble">${escapeHtml(match.answer)}</div>
+    <span class="source-chip">📄 ${escapeHtml(match.source)}</span>
+    ${actionHtml}
+  `;
+  chatBody.appendChild(div); scrollBottom();
+}
+
+function handleSend(text){
+  text = text.trim();
+  if(!text) return;
+  appendUser(text);
+  userInput.value = "";
+  sendBtn.disabled = true;
+  appendTyping();
+  setTimeout(() => {
+    removeTyping();
+    const match = retrieve(text);
+    appendBot(match);
+    sendBtn.disabled = false;
+  }, 500 + Math.random()*300);
+}
+
+sendBtn.addEventListener("click", () => handleSend(userInput.value));
+userInput.addEventListener("keydown", e => { if(e.key==="Enter") handleSend(userInput.value); });
+document.getElementById("suggested").addEventListener("click", e => {
+  const btn = e.target.closest("button");
+  if(btn) handleSend(btn.dataset.q);
+});
+
+// ---- 기능 연동 서브 화면 ----
+const featureOverlay = document.getElementById("featureOverlay");
+const featureTitle = document.getElementById("featureTitle");
+const featureBody = document.getElementById("featureBody");
+
+const FEATURES = {
+  visitor: {
+    title: "방문차량 등록",
+    render: () => `
+      <h3>방문차량을 등록합니다</h3>
+      <p>등록 즉시 방문자 주차 구역에 최대 4시간 무료 등록됩니다.</p>
+      <div class="field-row"><label>차량번호</label><input type="text" placeholder="예: 12가 3456"></div>
+      <div class="field-row"><label>방문 목적</label><input type="text" placeholder="예: 지인 방문"></div>
+      <div class="field-row"><label>방문 예정 시간</label><input type="text" value="오늘 14:00 ~ 18:00"></div>
+      <button class="confirm-btn" onclick="submitFeature('방문차량 등록이 완료되었습니다.')">등록 완료하기</button>
+    `
+  },
+  complaint: {
+    title: "민원 접수",
+    render: () => `
+      <h3>불편 사항을 접수합니다</h3>
+      <p>접수된 민원은 담당 부서에서 확인 후 신속하게 처리해 드립니다.</p>
+      <div class="field-row"><label>민원 유형</label><input type="text" value="층간소음 민원" readonly></div>
+      <div class="field-row"><label>상세 내용</label><input type="text" placeholder="예: 윗집 야간 소음이 반복됩니다."></div>
+      <button class="confirm-btn" onclick="submitFeature('민원이 정상 접수되었습니다. 처리 결과는 알림으로 안내해 드립니다.')">민원 접수하기</button>
+    `
+  }
+};
+
+function openFeature(type){
+  const f = FEATURES[type];
+  if(!f) return;
+  featureTitle.textContent = f.title;
+  featureBody.innerHTML = f.render();
+  featureOverlay.classList.add("open");
+}
+function closeFeature(){
+  featureOverlay.classList.remove("open");
+}
+
+function submitFeature(message){
+  featureBody.innerHTML = `
+    <div style="text-align:center; padding-top:40px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px;color:var(--accent);">✓</div>
+      <h3>처리 완료</h3>
+      <p>${escapeHtml(message)}</p>
+      <button class="confirm-btn" style="background:#eae5dc; color:#333; box-shadow:none;" onclick="closeFeature(); closeChat();">홈 화면으로 돌아가기</button>
+    </div>
+  `;
+}
+
+// ---- 로그인 기능 ----
+const loginOverlay = document.getElementById("loginOverlay");
+const userAddrText = document.getElementById("userAddrText");
+const loginBadgeBtn = document.getElementById("loginBadgeBtn");
+
+function openLogin(){
+  loginOverlay.classList.add("open");
+  home.classList.add("dimmed");
+}
+function closeLogin(){
+  loginOverlay.classList.remove("open");
+  home.classList.remove("dimmed");
+}
+function submitLogin(){
+  const dongVal = document.getElementById("loginDong").value;
+  userAddrText.textContent = dongVal;
+  loginBadgeBtn.textContent = "로그인됨";
+  loginBadgeBtn.style.background = "#d2e3d9";
+  loginBadgeBtn.style.color = "#1b382c";
+
+  document.getElementById("loginBody").innerHTML = `
+    <div style="text-align:center; padding-top:40px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px;">👤</div>
+      <h3>로그인 성공</h3>
+      <p><b>청록아파트 ${escapeHtml(dongVal)}</b> 입주민 인증이 완료되었습니다.</p>
+      <button class="confirm-btn" onclick="closeLogin()">확인</button>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

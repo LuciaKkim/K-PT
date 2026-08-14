@@ -1,0 +1,109 @@
+{
+  "metadataAttributes": {
+    "document_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "공사계약서"
+      },
+      "includeForEmbedding": true
+    },
+    "category": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "시설보수"
+      },
+      "includeForEmbedding": true
+    },
+    "property": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "organization": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "source_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "construction_contract"
+      },
+      "includeForEmbedding": false
+    },
+    "language": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "ko"
+      },
+      "includeForEmbedding": false
+    },
+    "contractor": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "(주)동현이앤아이"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_name": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트 어르신쉼터 경로당 시설 개보수공사"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-06-25"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_start_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-06-26"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_end_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-07-31"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_amount": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 24651000
+      },
+      "includeForEmbedding": false
+    },
+    "warranty_period_years": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 3
+      },
+      "includeForEmbedding": false
+    },
+    "apartment_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "APT001"
+      },
+      "includeForEmbedding": false
+    },
+    "is_public": {
+      "value": {
+        "type": "BOOLEAN",
+        "booleanValue": false
+      },
+      "includeForEmbedding": false
+    }
+  }
+}

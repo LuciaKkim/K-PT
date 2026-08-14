@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>차별화된 아파트 관리규정 OS, ApaTalk — 4조 프로젝트 발표</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+  <style>
+    /* ===========================================================
+       Deck framework — DO NOT EDIT the rules in this <style> block.
+       =========================================================== */
+    :root {
+      /* SLOT: theme tokens — brand-spec.md — 로즈골드 */
+      --bg: oklch(0.995 0.003 22);
+      --surface: oklch(0.962 0.009 22);
+      --card: oklch(0.995 0.003 22);
+      --cream: oklch(0.963 0.022 72);
+      --fg: oklch(0.265 0.024 20);
+      --fg-2: oklch(0.458 0.022 20);
+      --muted: oklch(0.538 0.017 20);
+      --border: oklch(0.923 0.011 22);
+      --accent: oklch(0.60 0.098 12);
+      --accent-deep: oklch(0.435 0.095 8);
+      --accent-soft: oklch(0.955 0.030 12);
+      --ink: oklch(0.225 0.022 20);
+      --shell: oklch(0.19 0.016 20);
+      --font-display: 'Wanted Sans Variable','Wanted Sans','Pretendard Variable',Pretendard,-apple-system,sans-serif;
+      --font-body: 'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--shell);
+      color: var(--fg);
+      font: 18px/1.5 -apple-system, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .deck-shell {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+    .deck-stage {
+      width: 1920px;
+      height: 1080px;
+      background: var(--bg);
+      position: relative;
+      transform-origin: top left;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .slide:not(.active) { display: none !important; }
+    :where(.slide.active) { display: flex; flex-direction: column; }
+
+    /* Programmatic chrome — counter + prev/next live outside the scaled stage. */
+    .deck-counter {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: rgba(10, 14, 26, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.18em;
+      z-index: 1000;
+    }
+    .deck-counter button {
+      width: 36px; height: 36px;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      border-radius: 50%;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.15s;
+    }
+    .deck-counter button:hover { background: rgba(255, 255, 255, 0.12); }
+    .deck-counter button[disabled] { opacity: 0.3; cursor: default; }
+    .deck-counter .deck-count {
+      padding: 0 14px;
+      letter-spacing: 0.22em;
+    }
+    .deck-counter .deck-count .total { color: rgba(255, 255, 255, 0.5); }
+    .deck-hint {
+      position: fixed;
+      bottom: 26px;
+      right: 28px;
+      color: rgba(255, 255, 255, 0.4);
+      font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 999;
+      pointer-events: none;
+      display: none;
+    }
+
+    @media print {
+      @page { size: 1920px 1080px; margin: 0; }
+      html, body {
+        width: 1920px !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+      }
+      .deck-shell {
+        position: static !important;
+        display: block !important;
+        inset: auto !important;
+      }
+      .deck-stage {
+        width: 1920px !important;
+        height: auto !important;
+        transform: none !important;
+        box-shadow: none !important;
+        position: static !important;
+      }
+      .slide {
+        display: flex !important;
+        position: relative !important;
+        inset: auto !important;
+        width: 1920px !important;
+        height: 1080px !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .slide:last-child { page-break-after: auto; break-after: auto; }
+      .deck-counter, .deck-hint { display: none !important; }
+    }
+  </style>
+  <style>
+    /* SLOT: per-deck styles */
+    .sheet{
+      position:absolute;inset:0;background:var(--surface);
+      padding:96px 120px 0;font-family:var(--font-body);
+      word-break:keep-all;
+    }
+    .sheet.ink{background:var(--ink);color:oklch(0.965 0.005 18)}
+    h1,h2,h3{font-family:var(--font-display);font-weight:800;letter-spacing:0;line-height:1.32}
+
+    /* ── 공통 조판 ─────────────────────────── */
+    .kick{
+      font-family:var(--font-display);font-size:24px;font-weight:800;
+      letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);
+    }
+    .kick .num{color:var(--muted);margin-right:14px;letter-spacing:.14em}
+    .stitle{font-size:64px;margin-top:24px}
+    .lead{font-size:32px;line-height:1.6;color:var(--fg-2);max-width:24ch;margin-top:28px}
+    .foot{
+      position:absolute;left:120px;right:120px;bottom:54px;
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:24px;color:var(--muted);
+    }
+    .foot .wm{font-family:var(--font-display);font-weight:800;letter-spacing:.02em;color:var(--fg-2)}
+    .cols{display:grid;grid-template-columns:660px 1fr;gap:100px;margin-top:8px}
+    .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+    .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+    .card{
+      background:var(--card);border:1px solid var(--border);border-radius:24px;
+      padding:40px;box-shadow:0 1px 2px oklch(0.265 0.024 20/.05),0 6px 20px oklch(0.265 0.024 20/.05);
+    }
+    .card h3{font-size:34px}
+    .card p{font-size:26px;line-height:1.7;color:var(--fg-2);margin-top:18px}
+    .ico{
+      width:64px;height:64px;border-radius:18px;background:var(--surface);color:var(--accent-deep);
+      display:flex;align-items:center;justify-content:center;margin-bottom:26px;
+    }
+    .ico svg{width:32px;height:32px}
+    .chip{
+      display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 22px;border-radius:999px;
+      background:var(--accent-soft);color:var(--accent-deep);font-size:24px;font-weight:700;letter-spacing:.01em;
+    }
+    .chip.plain{background:var(--card);border:1px solid var(--border);color:var(--fg-2);font-weight:600}
+    .chip.hold{background:transparent;border:2px dashed oklch(0.86 0.014 22);color:var(--muted);font-weight:600}
+
+    /* ── 01 표지 ───────────────────────────── */
+    .s-cover .sheet{padding:0}
+    .cover-in{position:absolute;left:120px;top:262px;width:1080px}
+    .cover-over{font-size:48px;font-weight:600;color:var(--fg);line-height:1.4}
+    .cover-t{
+      font-family:var(--font-display);font-size:132px;font-weight:800;
+      line-height:1.3;letter-spacing:0;color:var(--accent-deep);margin-top:18px;
+    }
+    .cover-sub{font-size:32px;color:var(--fg-2);margin-top:40px}
+    .cover-team{position:absolute;left:120px;bottom:96px;display:flex;align-items:center;gap:20px}
+    .cover-team .dots{display:flex}
+    .cover-team .dots i{
+      width:34px;height:34px;border-radius:50%;background:oklch(0.84 0.062 12);display:block;
+    }
+    .cover-team .dots i+i{margin-left:-14px;background:oklch(0.90 0.05 12)}
+    .cover-team span{font-size:28px;color:var(--fg-2);letter-spacing:.02em}
+    .shapes{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+    .shapes i{position:absolute;display:block}
+    .shapes .s1{
+      width:520px;height:470px;right:-40px;top:-70px;
+      border-radius:56% 44% 48% 52%/52% 56% 44% 48%;
+      background:radial-gradient(115% 115% at 32% 22%, oklch(0.865 0.045 12), oklch(0.752 0.058 12));
+    }
+    .shapes .s2{
+      width:300px;height:330px;right:250px;top:470px;
+      border-radius:48% 52% 56% 44%/44% 48% 52% 56%;
+      background:radial-gradient(115% 115% at 34% 26%, oklch(0.978 0.018 72), var(--cream));
+    }
+    .shapes .s3{
+      width:440px;height:400px;right:-90px;bottom:-120px;
+      border-radius:52% 48% 44% 56%/56% 44% 52% 48%;
+      background:radial-gradient(115% 115% at 36% 24%, oklch(0.845 0.048 12), oklch(0.735 0.058 12));
+    }
+
+    /* ── 02 목차 ───────────────────────────── */
+    .toc{margin-top:12px;border-top:1px solid var(--border)}
+    .toc-row{
+      display:grid;grid-template-columns:120px 1fr 140px;align-items:center;
+      height:132px;border-bottom:1px solid var(--border);
+    }
+    .toc-row .n{font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--accent-deep);letter-spacing:.04em}
+    .toc-row .t{font-family:var(--font-display);font-size:48px;font-weight:800}
+    .toc-row .p{font-size:26px;color:var(--muted);text-align:right;letter-spacing:.04em}
+
+    /* ── 03 팀 ─────────────────────────────── */
+    .who{font-family:var(--font-display);font-size:40px;font-weight:800}
+    .who-role{font-size:26px;line-height:1.7;color:var(--fg-2);margin-top:20px}
+    .avatar{
+      width:96px;height:96px;border-radius:50%;margin-bottom:30px;
+      background:radial-gradient(115% 115% at 34% 26%, oklch(0.90 0.038 12), oklch(0.80 0.055 12));
+    }
+    .avatar.b{background:radial-gradient(115% 115% at 34% 26%, oklch(0.975 0.018 72), var(--cream))}
+
+    /* ── 04 배경 ───────────────────────────── */
+    .pain{display:flex;flex-direction:column;gap:28px}
+    .pain-row{
+      display:flex;gap:28px;align-items:flex-start;
+      background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px 36px;
+    }
+    .pain-row .k{
+      width:52px;height:52px;flex:none;border-radius:14px;background:var(--surface);
+      color:var(--accent-deep);display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-display);font-size:24px;font-weight:800;
+    }
+    .pain-row b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800}
+    .pain-row p{font-size:25px;line-height:1.66;color:var(--fg-2);margin-top:12px}
+
+    /* ── 05 한 줄 정의 ─────────────────────── */
+    .claim{font-size:88px;line-height:1.32;letter-spacing:0}
+    .flow3{display:grid;grid-template-columns:1fr 64px 1fr 64px 1fr;align-items:stretch;margin-top:76px}
+    .flow3 .step{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px}
+    .flow3 .step .s{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:.1em;color:var(--muted)}
+    .flow3 .step b{display:block;font-family:var(--font-display);font-size:34px;font-weight:800;margin-top:16px}
+    .flow3 .step p{font-size:24px;line-height:1.62;color:var(--fg-2);margin-top:14px}
+    .arrow{display:flex;align-items:center;justify-content:center;color:oklch(0.78 0.038 12)}
+    .arrow svg{width:32px;height:32px}
+
+    /* ── 06 구조 ───────────────────────────── */
+    .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px}
+    .pipe .node{
+      background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px 28px;
+      margin-right:-1px;position:relative;z-index:1;
+    }
+    .pipe .node+.node{margin-left:24px}
+    .pipe .node .s{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:.08em;color:var(--accent-deep)}
+    .pipe .node b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800;margin-top:14px;line-height:1.3}
+    .pipe .node p{font-size:23px;line-height:1.6;color:var(--fg-2);margin-top:12px}
+    .pipe .node.out{background:var(--accent-soft);border-color:oklch(0.90 0.046 12)}
+    .pipe-note{
+      margin-top:44px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+      font-size:25px;color:var(--fg-2);
+    }
+
+    /* ── 07 답변 해부 ──────────────────────── */
+    .anat{display:flex;flex-direction:column;gap:22px}
+    .anat-r{display:grid;grid-template-columns:56px 1fr;gap:26px;align-items:start}
+    .anat-r .n{
+      width:56px;height:56px;border-radius:50%;background:var(--accent-deep);color:#fff;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--font-display);font-size:26px;font-weight:800;
+    }
+    .anat-r b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800}
+    .anat-r p{font-size:24px;line-height:1.64;color:var(--fg-2);margin-top:10px}
+    .mock{
+      background:var(--card);border:1px solid var(--border);border-radius:28px;padding:40px;
+      box-shadow:0 2px 8px oklch(0.265 0.024 20/.06),0 24px 48px -18px oklch(0.265 0.024 20/.18);
+    }
+    .mock-head{display:flex;align-items:center;gap:16px;padding-bottom:26px;border-bottom:1px solid var(--border)}
+    .mock-head .mk{
+      width:56px;height:56px;border-radius:18px;background:var(--accent-soft);color:var(--accent-deep);
+      display:flex;align-items:center;justify-content:center;flex:none;
+    }
+    .mock-head .mk svg{width:28px;height:28px}
+    .mock-head b{font-family:var(--font-display);font-size:26px;font-weight:800}
+    .mock-head span{display:block;font-size:22px;color:var(--muted);margin-top:4px}
+    .ask{
+      margin:30px 0 0 auto;max-width:78%;background:var(--accent-deep);color:#fff;
+      border-radius:22px;border-bottom-right-radius:8px;padding:22px 26px;font-size:25px;line-height:1.6;
+    }
+    .say{
+      margin-top:22px;max-width:88%;background:var(--surface);
+      border-radius:22px;border-bottom-left-radius:8px;padding:24px 26px;font-size:25px;line-height:1.68;
+    }
+    .say strong{font-weight:800}
+    .src{margin-top:20px}
+    .act{margin-top:26px;border:1px solid var(--border);border-radius:20px;padding:26px}
+    .act p{font-size:24px;color:var(--fg-2)}
+    .act .btn{
+      margin-top:20px;height:68px;border-radius:18px;background:var(--accent-deep);color:#fff;
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:.02em;
+    }
+    .act .btn svg{width:24px;height:24px}
+
+    /* ── 08 학습 문서 ──────────────────────── */
+    .docs{display:flex;flex-direction:column;gap:24px}
+    .doc{
+      display:flex;align-items:center;gap:26px;background:var(--card);
+      border:1px solid var(--border);border-radius:22px;padding:30px 34px;
+    }
+    .doc .di{
+      width:60px;height:60px;flex:none;border-radius:16px;background:var(--surface);
+      color:var(--accent-deep);display:flex;align-items:center;justify-content:center;
+    }
+    .doc .di svg{width:30px;height:30px}
+    .doc b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800}
+    .doc span{display:block;font-size:23px;color:var(--muted);margin-top:6px}
+    .doc .ok{margin-left:auto;flex:none;font-size:23px;font-weight:700;color:var(--accent-deep)}
+
+    /* ── 09 화면 ───────────────────────────── */
+    .scr{
+      background:var(--card);border:1px solid var(--border);border-radius:26px;padding:0;overflow:hidden;
+      box-shadow:0 1px 2px oklch(0.265 0.024 20/.05),0 8px 24px oklch(0.265 0.024 20/.06);
+    }
+    .scr-top{padding:28px 30px 22px;border-bottom:1px solid var(--border)}
+    .scr-top .s{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+    .scr-top b{display:block;font-family:var(--font-display);font-size:30px;font-weight:800;margin-top:10px}
+    .scr-body{padding:26px 30px 30px;display:flex;flex-direction:column;gap:16px}
+    .scr-body .li{background:var(--surface);border-radius:16px;padding:20px 22px;font-size:23px;line-height:1.5}
+    .scr-body .li em{display:block;font-style:normal;color:var(--muted);font-size:21px;margin-top:8px}
+    .scr-body .li.hi{background:var(--accent-soft);color:var(--accent-deep);font-weight:700}
+
+    /* ── 11 구현 범위 ──────────────────────── */
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:56px}
+    .split h3{font-size:34px;display:flex;align-items:center;gap:16px}
+    .split h3 .b{
+      width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none;
+      background:var(--accent-soft);color:var(--accent-deep);
+    }
+    .split h3 .b.n{background:oklch(0.94 0.008 22);color:var(--muted)}
+    .split h3 .b svg{width:24px;height:24px}
+    .list{margin-top:32px;border-top:1px solid var(--border)}
+    .list div{
+      padding:24px 0;border-bottom:1px solid var(--border);
+      font-size:26px;line-height:1.6;color:var(--fg-2);
+    }
+    .list div b{color:var(--fg);font-weight:700}
+    .note{
+      margin-top:40px;display:flex;gap:18px;align-items:flex-start;
+      font-size:24px;line-height:1.6;color:var(--muted);max-width:70ch;
+    }
+    .note svg{width:26px;height:26px;flex:none;margin-top:5px}
+
+    /* ── 12 결론 ───────────────────────────── */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
+    .steps .st{border-top:3px solid var(--accent-deep);padding-top:28px}
+    .steps .st:nth-child(2){border-top-color:oklch(0.78 0.062 12)}
+    .steps .st:nth-child(3){border-top-color:oklch(0.88 0.038 12)}
+    .steps .st .s{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:.1em;color:var(--muted)}
+    .steps .st b{display:block;font-family:var(--font-display);font-size:36px;font-weight:800;margin-top:14px}
+    .steps .st p{font-size:25px;line-height:1.66;color:var(--fg-2);margin-top:16px}
+    .concl{display:flex;flex-direction:column;gap:26px;margin-top:8px}
+    .concl div{font-size:34px;line-height:1.55;padding-left:34px;position:relative}
+    .concl div::before{
+      content:'';position:absolute;left:0;top:19px;width:16px;height:16px;border-radius:5px;
+      background:var(--accent-deep);
+    }
+
+    /* ── 13 마감 ───────────────────────────── */
+    .s-end .sheet{padding:0}
+    .end-in{position:absolute;left:120px;top:50%;transform:translateY(-50%);width:1100px}
+    .end-t{font-family:var(--font-display);font-size:120px;font-weight:800;line-height:1.2;letter-spacing:-.01em}
+    .end-sub{font-size:32px;line-height:1.7;color:oklch(0.79 0.014 18);margin-top:36px;max-width:34ch}
+    .end-meta{
+      position:absolute;left:120px;bottom:96px;font-size:26px;line-height:1.7;
+      color:oklch(0.705 0.021 18);
+    }
+    .s-end .shapes .s1{opacity:.42}
+    .s-end .shapes .s2{opacity:.5}
+    .s-end .shapes .s3{opacity:.34}
+  </style>
+</head>
+<body>
+  <div class="deck-shell">
+    <div class="deck-stage" id="deck-stage">
+
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <g id="i-doc" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/>
+          </g>
+          <g id="i-search" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>
+          </g>
+          <g id="i-chat" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16v11H11l-5 4v-4H4z"/><path d="M8.5 11h7"/>
+          </g>
+          <g id="i-check" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4.5 12.5l5 5 10-11"/>
+          </g>
+          <g id="i-bell" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 10a6 6 0 0 1 12 0v5l2 3H4l2-3z"/><path d="M10 21h4"/>
+          </g>
+          <g id="i-shield" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v6c0 5-3.2 8-7 9-3.8-1-7-4-7-9V6z"/><path d="M9 12l2.2 2.2L15.5 10"/>
+          </g>
+          <g id="i-arrow" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h13"/><path d="M13 7l5 5-5 5"/>
+          </g>
+          <g id="i-clock" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.5 2"/>
+          </g>
+          <g id="i-info" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- ══════════ 01 표지 ══════════ -->
+      <section class="slide active s-cover" data-screen-label="01 표지">
+        <div class="sheet" data-od-id="cover">
+          <div class="shapes" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>
+          <div class="cover-in">
+            <span class="chip" data-od-id="cover-chip">4조</span>
+            <p class="cover-over" style="margin-top:34px">차별화된 아파트 관리규정 OS,</p>
+            <h1 class="cover-t" data-od-id="cover-title">: ApaTalk</h1>
+            <p class="cover-sub">RAG 기반 관리규정 검색 · 업무지원 시스템</p>
+          </div>
+          <div class="cover-team">
+            <span class="dots" aria-hidden="true"><i></i><i></i></span>
+            <span>김민정 · 김보민 · 한민희</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ 02 목차 ══════════ -->
+      <section class="slide" data-screen-label="02 목차">
+        <div class="sheet" data-od-id="contents">
+          <p class="kick">Table of contents</p>
+          <h2 class="stitle" style="margin-bottom:44px">발표 순서</h2>
+          <div class="toc">
+            <div class="toc-row"><span class="n">01</span><span class="t">개요 및 배경</span><span class="p">P. 04</span></div>
+            <div class="toc-row"><span class="n">02</span><span class="t">구조</span><span class="p">P. 06</span></div>
+            <div class="toc-row"><span class="n">03</span><span class="t">구현</span><span class="p">P. 08</span></div>
+            <div class="toc-row"><span class="n">04</span><span class="t">결과</span><span class="p">P. 11</span></div>
+            <div class="toc-row"><span class="n">05</span><span class="t">결론</span><span class="p">P. 12</span></div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>02</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 03 팀 ══════════ -->
+      <section class="slide" data-screen-label="03 팀 구성">
+        <div class="sheet" data-od-id="team">
+          <p class="kick">Team</p>
+          <h2 class="stitle">팀 구성 및 역할분담</h2>
+          <div class="row3" style="margin-top:72px">
+            <div class="card" data-od-id="member-kimminjeong">
+              <span class="avatar" aria-hidden="true"></span>
+              <p class="who">김민정</p>
+              <p class="who-role">프론트엔드 · 백엔드 연동 구현</p>
+            </div>
+            <div class="card" data-od-id="member-kimbomin">
+              <span class="avatar b" aria-hidden="true"></span>
+              <p class="who">김보민</p>
+              <p class="who-role">데이터 수집 및 프론트엔드 구현</p>
+            </div>
+            <div class="card" data-od-id="member-hanminhee">
+              <span class="avatar" aria-hidden="true"></span>
+              <p class="who">한민희</p>
+              <p class="who-role">백엔드 구현</p>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>03</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 04 배경 ══════════ -->
+      <section class="slide" data-screen-label="04 배경">
+        <div class="sheet" data-od-id="background">
+          <div class="cols">
+            <div>
+              <p class="kick"><span class="num">01</span>개요 및 배경</p>
+              <h2 class="stitle">규정을 외우는 건<br>사람 몫이 아닙니다</h2>
+              <p class="lead">관리규약 · 주차규정 · 생활수칙은 이미 문서로 존재합니다. 문제는 아무도 그 문서를 펼쳐 보지 않는다는 데 있습니다.</p>
+            </div>
+            <div class="pain" style="margin-top:14px">
+              <div class="pain-row" data-od-id="pain-scattered">
+                <span class="k">1</span>
+                <div>
+                  <b>규정은 흩어져 있습니다</b>
+                  <p>관리규약, 주차 관리 규정, 층간소음 관리 규정이 각각 다른 문서에 조항으로만 남아 있습니다.</p>
+                </div>
+              </div>
+              <div class="pain-row" data-od-id="pain-repeat">
+                <span class="k">2</span>
+                <div>
+                  <b>같은 질문이 반복됩니다</b>
+                  <p>세대는 문서 대신 관리사무소에 전화합니다. 방문차량 주차 시간, 소음 기준 같은 질문이 계속 돌아옵니다.</p>
+                </div>
+              </div>
+              <div class="pain-row" data-od-id="pain-followup">
+                <span class="k">3</span>
+                <div>
+                  <b>접수 이후 확인 전화가 이어집니다</b>
+                  <p>민원을 넣은 뒤에도 처리 단계를 알 수 없어 다시 전화로 확인하게 됩니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>04</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 05 한 줄 정의 ══════════ -->
+      <section class="slide" data-screen-label="05 무엇을 만들었나">
+        <div class="sheet" data-od-id="what-we-built">
+          <p class="kick"><span class="num">01</span>개요 및 배경</p>
+          <h2 class="claim" style="margin-top:36px" data-od-id="claim">관리규약을 몰라도<br>물어보면 답이 옵니다</h2>
+          <div class="flow3">
+            <div class="step" data-od-id="flow-ask">
+              <span class="s">01 ASK</span>
+              <b>질문</b>
+              <p>세대가 평소 쓰는 말로 묻습니다. “방문차량 몇 시간까지 주차 가능해?”</p>
+            </div>
+            <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+            <div class="step" data-od-id="flow-answer">
+              <span class="s">02 ANSWER</span>
+              <b>답변 + 근거</b>
+              <p>학습한 규정에서 찾아 답하고, 어느 조항에서 나왔는지 함께 붙입니다.</p>
+            </div>
+            <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+            <div class="step" data-od-id="flow-act">
+              <span class="s">03 ACT</span>
+              <b>신청 · 알림</b>
+              <p>이어지는 신청을 대화 안에서 끝내고, 처리 단계마다 알림을 보냅니다.</p>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>05</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 06 구조 ══════════ -->
+      <section class="slide" data-screen-label="06 시스템 구조">
+        <div class="sheet" data-od-id="architecture">
+          <p class="kick"><span class="num">02</span>구조</p>
+          <h2 class="stitle">규정 문서에서 답변까지</h2>
+          <div class="pipe" data-od-id="rag-pipeline">
+            <div class="node">
+              <span class="s">01</span>
+              <b>규정 문서</b>
+              <p>아파트 · 오피스텔의 관리규약과 규정 문서를 원문 그대로 수집합니다.</p>
+            </div>
+            <div class="node">
+              <span class="s">02</span>
+              <b>조항 단위 분할</b>
+              <p>조·항 경계를 기준으로 잘라 출처를 잃지 않게 보관합니다.</p>
+            </div>
+            <div class="node">
+              <span class="s">03</span>
+              <b>임베딩 · 색인</b>
+              <p>잘린 조항을 벡터로 바꿔 검색 가능한 형태로 저장합니다.</p>
+            </div>
+            <div class="node">
+              <span class="s">04</span>
+              <b>질문 검색</b>
+              <p>세대의 질문과 가까운 조항을 찾아 후보로 올립니다.</p>
+            </div>
+            <div class="node out">
+              <span class="s">05</span>
+              <b>답변 + 조항 인용</b>
+              <p>찾은 조항을 근거로 답을 만들고 출처를 함께 표기합니다.</p>
+            </div>
+          </div>
+          <p class="pipe-note">
+            <span class="chip plain">관리규약</span>
+            <span class="chip plain">주차 관리 규정</span>
+            <span class="chip plain">층간소음 관리 규정</span>
+            <span>— 현재 프로토타입이 학습한 문서 범위</span>
+          </p>
+          <div class="foot"><span class="wm">ApaTalk</span><span>06</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 07 답변 해부 ══════════ -->
+      <section class="slide" data-screen-label="07 답변 구조">
+        <div class="sheet" data-od-id="answer-anatomy">
+          <div class="cols" style="grid-template-columns:620px 1fr;gap:90px">
+            <div>
+              <p class="kick"><span class="num">02</span>구조</p>
+              <h2 class="stitle" style="font-size:56px">답변 하나에<br>세 가지가 들어갑니다</h2>
+              <div class="anat" style="margin-top:52px">
+                <div class="anat-r">
+                  <span class="n">1</span>
+                  <div><b>답변</b><p>규정 원문을 세대가 읽는 말로 정리하고, 핵심 수치는 굵게 표기합니다.</p></div>
+                </div>
+                <div class="anat-r">
+                  <span class="n">2</span>
+                  <div><b>근거</b><p>어느 문서 몇 조 몇 항인지 그대로 붙입니다. 근거를 찾지 못하면 이 칩이 붙지 않습니다.</p></div>
+                </div>
+                <div class="anat-r">
+                  <span class="n">3</span>
+                  <div><b>다음 행동</b><p>이어질 신청이 있을 때만 카드가 나타납니다. 카드 안의 버튼은 언제나 하나입니다.</p></div>
+                </div>
+              </div>
+            </div>
+            <div class="mock" data-od-id="answer-mock">
+              <div class="mock-head">
+                <span class="mk" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+                <span><b>아파톡 생활 도우미</b><span>우리 건물 규정 학습 완료</span></span>
+              </div>
+              <p class="ask">방문차량 몇 시간까지 주차 가능해?</p>
+              <p class="say">미리 등록하면 방문자 구역에 <strong>최대 4시간</strong>까지 주차할 수 있어요. 초과하면 시간당 요금이 부과됩니다.</p>
+              <p class="src"><span class="chip" style="height:48px;font-size:23px">주차 관리 규정 제8조 3항</span></p>
+              <div class="act">
+                <p>바로 이어서 진행할까요?</p>
+                <p class="btn">방문차량 등록하기 <svg aria-hidden="true"><use href="#i-arrow"/></svg></p>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>07</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 08 학습 문서 ══════════ -->
+      <section class="slide" data-screen-label="08 학습 문서">
+        <div class="sheet" data-od-id="learned-docs">
+          <div class="cols">
+            <div>
+              <p class="kick"><span class="num">03</span>구현</p>
+              <h2 class="stitle">근거 없는 답변에는<br>칩이 붙지 않습니다</h2>
+              <p class="lead">생성형 답변만 던지지 않기 위한 규칙입니다. 학습한 문서 안에서 조항을 찾지 못하면 근거 칩 없이 답하고, 그 사실이 화면에 드러납니다.</p>
+            </div>
+            <div class="docs" style="margin-top:14px">
+              <div class="doc" data-od-id="doc-bylaws">
+                <span class="di" aria-hidden="true"><svg><use href="#i-doc"/></svg></span>
+                <span><b>우리 건물 관리규약</b><span>2025 개정판</span></span>
+                <span class="ok">학습 완료</span>
+              </div>
+              <div class="doc" data-od-id="doc-parking">
+                <span class="di" aria-hidden="true"><svg><use href="#i-doc"/></svg></span>
+                <span><b>주차 관리 규정</b><span>제8조 방문차량</span></span>
+                <span class="ok">학습 완료</span>
+              </div>
+              <div class="doc" data-od-id="doc-noise">
+                <span class="di" aria-hidden="true"><svg><use href="#i-doc"/></svg></span>
+                <span><b>층간소음 관리 규정</b><span>제12조</span></span>
+                <span class="ok">학습 완료</span>
+              </div>
+              <p class="note" style="margin-top:22px">
+                <svg aria-hidden="true"><use href="#i-info"/></svg>
+                화면의 이름 · 세대 · 공지 내용은 동작 확인용 샘플입니다. 실제 도입 시 해당 아파트 · 오피스텔의 규정 문서를 기준으로 학습합니다.
+              </p>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>08</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 09 화면 ══════════ -->
+      <section class="slide" data-screen-label="09 구현 화면">
+        <div class="sheet" data-od-id="screens">
+          <p class="kick"><span class="num">03</span>구현</p>
+          <h2 class="stitle">네 개의 화면으로 끝냅니다</h2>
+          <div class="row4" style="margin-top:56px">
+            <div class="scr" data-od-id="screen-home">
+              <div class="scr-top"><span class="s">HOME</span><b>홈 · 단지 소식</b></div>
+              <div class="scr-body">
+                <span class="li">8/15(금) 정기 소방점검 안내<em>10:00–16:00 · 전 세대</em></span>
+                <span class="li">승강기 교체 안건 전자투표<em>8/12 ~ 8/20 · 102동</em></span>
+                <span class="li">헬스장 정기 소독<em>8/14 수 06:00–09:00 휴관</em></span>
+              </div>
+            </div>
+            <div class="scr" data-od-id="screen-chat">
+              <div class="scr-top"><span class="s">CHAT</span><b>대화 · 규정 검색</b></div>
+              <div class="scr-body">
+                <span class="li hi">방문차량 몇 시간까지 주차 가능해?</span>
+                <span class="li">최대 4시간까지 주차할 수 있어요<em>주차 관리 규정 제8조 3항</em></span>
+                <span class="li">추천 질문 · 헬스장 운영시간 / 반려동물 규정</span>
+              </div>
+            </div>
+            <div class="scr" data-od-id="screen-apply">
+              <div class="scr-top"><span class="s">APPLY</span><b>신청 · 접수</b></div>
+              <div class="scr-body">
+                <span class="li">방문차량 등록<em>12가 3456 · 14:00–18:00</em></span>
+                <span class="li">민원 접수<em>접수 → 처리 → 완료</em></span>
+                <span class="li">전자투표<em>인증된 세대만 참여</em></span>
+              </div>
+            </div>
+            <div class="scr" data-od-id="screen-me">
+              <div class="scr-top"><span class="s">ME</span><b>내 정보 · 알림</b></div>
+              <div class="scr-body">
+                <span class="li">세대 인증<em>동 · 호수와 연락처로 인증</em></span>
+                <span class="li">단지 공지 알림<em>공지 등록 시 즉시 발송</em></span>
+                <span class="li">방문차량 만료 알림<em>주차 종료 30분 전 발송</em></span>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>09</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 10 네 가지 축 ══════════ -->
+      <section class="slide" data-screen-label="10 네 가지 축">
+        <div class="sheet" data-od-id="four-axes">
+          <p class="kick"><span class="num">03</span>구현</p>
+          <h2 class="stitle">관리사무소 업무를 줄이는 네 가지 축</h2>
+          <div class="row4" style="margin-top:64px">
+            <div class="card" data-od-id="axis-evidence">
+              <span class="ico" aria-hidden="true"><svg><use href="#i-search"/></svg></span>
+              <h3>근거 있는 답변</h3>
+              <p>답변마다 관리규약 조항을 함께 표기합니다. 세대가 근거를 확인할 수 있어 재문의가 줄어듭니다.</p>
+            </div>
+            <div class="card" data-od-id="axis-conversational">
+              <span class="ico" aria-hidden="true"><svg><use href="#i-chat"/></svg></span>
+              <h3>대화형 신청</h3>
+              <p>방문차량 등록과 민원 접수를 대화 안에서 처리합니다. 메뉴를 찾아 들어가는 단계가 사라집니다.</p>
+            </div>
+            <div class="card" data-od-id="axis-auth">
+              <span class="ico" aria-hidden="true"><svg><use href="#i-shield"/></svg></span>
+              <h3>세대 인증</h3>
+              <p>동 · 호수와 연락처만으로 인증합니다. 인증된 세대만 전자투표와 민원 접수에 참여합니다.</p>
+            </div>
+            <div class="card" data-od-id="axis-notify">
+              <span class="ico" aria-hidden="true"><svg><use href="#i-bell"/></svg></span>
+              <h3>단계별 알림</h3>
+              <p>접수 · 처리 · 완료 단계마다 세대로 알림을 보냅니다. 진행 상황을 확인하는 전화를 대신합니다.</p>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>10</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 11 결과 ══════════ -->
+      <section class="slide" data-screen-label="11 결과">
+        <div class="sheet" data-od-id="results">
+          <p class="kick"><span class="num">04</span>결과</p>
+          <h2 class="stitle">지금 동작하는 범위</h2>
+          <div class="split">
+            <div data-od-id="result-done">
+              <h3><span class="b" aria-hidden="true"><svg><use href="#i-check"/></svg></span>구현 완료</h3>
+              <div class="list">
+                <div><b>규정 질의응답</b> — 학습한 3개 문서에서 조항을 찾아 답변</div>
+                <div><b>근거 표기</b> — 답변마다 문서 · 조 · 항을 칩으로 표기</div>
+                <div><b>대화형 신청</b> — 방문차량 등록을 대화에서 완료</div>
+                <div><b>세대 인증</b> — 동 · 호수 + 연락처 입력 검증</div>
+                <div><b>알림 설정</b> — 공지 · 민원 · 만료 알림 토글</div>
+              </div>
+            </div>
+            <div data-od-id="result-todo">
+              <h3><span class="b n" aria-hidden="true"><svg><use href="#i-clock"/></svg></span>미구현 · 다음 과제</h3>
+              <div class="list">
+                <div><b>실서비스 연동</b> — 관리사무소 업무 시스템과의 연계</div>
+                <div><b>문서 자동 갱신</b> — 규약 개정 시 재학습 파이프라인</div>
+                <div><b>정량 평가</b> — 검색 정확도 · 응대 감소 효과 측정</div>
+              </div>
+            </div>
+          </div>
+          <p class="note">
+            <svg aria-hidden="true"><use href="#i-info"/></svg>
+            정량 지표는 아직 측정하지 않았습니다. 프로토타입 단계이므로 이 장에는 만족도 · 정확도 수치를 넣지 않았습니다.
+          </p>
+          <div class="foot"><span class="wm">ApaTalk</span><span>11</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 12 결론 ══════════ -->
+      <section class="slide" data-screen-label="12 결론">
+        <div class="sheet" data-od-id="conclusion">
+          <div class="cols" style="grid-template-columns:700px 1fr;gap:100px">
+            <div>
+              <p class="kick"><span class="num">05</span>결론</p>
+              <h2 class="stitle" style="font-size:56px">답을 주는 것보다<br>근거를 주는 것</h2>
+              <div class="concl" style="margin-top:48px">
+                <div>규정은 이미 있습니다. 필요한 건 검색이 아니라 <b>조항 단위의 답변</b>입니다.</div>
+                <div>근거가 붙은 답변은 재문의를 만들지 않습니다.</div>
+                <div>답변에서 신청까지 이어질 때 관리사무소의 일이 실제로 줄어듭니다.</div>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <p class="kick" style="color:var(--muted)">Next</p>
+              <div class="steps" style="grid-template-columns:1fr;gap:34px;margin-top:34px">
+                <div class="st" data-od-id="next-docs">
+                  <span class="s">STEP 01</span>
+                  <b>학습 문서 확대</b>
+                  <p>아파트 · 오피스텔별 관리규약 전문과 부속 규정까지 학습 범위를 넓힙니다.</p>
+                </div>
+                <div class="st" data-od-id="next-pilot">
+                  <span class="s">STEP 02</span>
+                  <b>실사용 파일럿</b>
+                  <p>규정 문서를 제공하는 아파트 · 오피스텔 한 곳에서 실사용 테스트를 진행합니다.</p>
+                </div>
+                <div class="st" data-od-id="next-eval">
+                  <span class="s">STEP 03</span>
+                  <b>정량 평가 설계</b>
+                  <p>검색 정확도와 관리사무소 응대량 변화를 측정할 기준을 세웁니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><span class="wm">ApaTalk</span><span>12</span></div>
+        </div>
+      </section>
+
+      <!-- ══════════ 13 마감 ══════════ -->
+      <section class="slide s-end" data-screen-label="13 감사">
+        <div class="sheet ink" data-od-id="closing">
+          <div class="shapes" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>
+          <div class="end-in">
+            <h2 class="end-t">Thank you</h2>
+            <p class="end-sub">관리규약을 몰라도 물어보면 답이 오는 건물. 질문은 언제든 환영합니다.</p>
+          </div>
+          <p class="end-meta">
+            4조 · 김민정 · 김보민 · 한민희<br>
+            차별화된 아파트 관리규정 OS, ApaTalk
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Framework chrome — DO NOT EDIT below this line. -->
+  <nav class="deck-counter" role="navigation" aria-label="Deck navigation">
+    <button type="button" id="deck-prev" aria-label="Previous slide">‹</button>
+    <span class="deck-count"><span id="deck-cur">01</span> <span class="total">/ <span id="deck-total">01</span></span></span>
+    <button type="button" id="deck-next" aria-label="Next slide">›</button>
+  </nav>
+  <div class="deck-hint">← / → · space · R reset</div>
+
+  <script>
+    (function () {
+      var stage = document.getElementById('deck-stage');
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var prev = document.getElementById('deck-prev');
+      var next = document.getElementById('deck-next');
+      var cur = document.getElementById('deck-cur');
+      var total = document.getElementById('deck-total');
+      var STORE = 'deck:idx:' + (location.pathname || '/');
+      var idx = 0;
+
+      // ---- scale-to-fit ---------------------------------------------------
+      function fit() {
+        var sw = window.innerWidth;
+        var sh = window.innerHeight;
+        var pad = 32;
+        var s = Math.min((sw - pad) / 1920, (sh - pad) / 1080);
+        if (!isFinite(s) || s <= 0) s = 1;
+        var tx = (sw - 1920 * s) / 2;
+        var ty = (sh - 1080 * s) / 2;
+        stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+      }
+
+      // ---- navigation -----------------------------------------------------
+      function pad2(n) { return (n < 10 ? '0' : '') + n; }
+      function paint() {
+        slides.forEach(function (el, i) { el.classList.toggle('active', i === idx); });
+        if (cur) cur.textContent = pad2(idx + 1);
+        if (total) total.textContent = pad2(slides.length);
+        if (prev) prev.toggleAttribute('disabled', idx <= 0);
+        if (next) next.toggleAttribute('disabled', idx >= slides.length - 1);
+      }
+      function go(i) {
+        idx = Math.max(0, Math.min(slides.length - 1, i));
+        paint();
+        try { localStorage.setItem(STORE, String(idx)); } catch (_) {}
+      }
+      function onKey(e) {
+        if (e.__odDeckKeyHandled) return;
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+        if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.__odDeckKeyHandled = true; e.preventDefault(); go(idx + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.__odDeckKeyHandled = true; e.preventDefault(); go(idx - 1); }
+        else if (e.key === 'Home' || String(e.key).toLowerCase() === 'r') { e.__odDeckKeyHandled = true; e.preventDefault(); go(0); }
+        else if (e.key === 'End') { e.__odDeckKeyHandled = true; e.preventDefault(); go(slides.length - 1); }
+      }
+      window.addEventListener('keydown', onKey, true);
+      document.addEventListener('keydown', onKey, true);
+      if (prev) prev.addEventListener('click', function () { go(idx - 1); });
+      if (next) next.addEventListener('click', function () { go(idx + 1); });
+      document.addEventListener('click', function (e) {
+        if (e.defaultPrevented) return;
+        if (e.button !== undefined && e.button !== 0) return;
+        if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+        var t = e.target;
+        while (t && t !== document.body && t !== document.documentElement) {
+          var tag = String(t.tagName || '').toUpperCase();
+          if (
+            tag === 'A' ||
+            tag === 'BUTTON' ||
+            tag === 'INPUT' ||
+            tag === 'TEXTAREA' ||
+            tag === 'SELECT' ||
+            t.isContentEditable ||
+            t.getAttribute('role') === 'button' ||
+            t.getAttribute('role') === 'link'
+          ) return;
+          t = t.parentElement;
+        }
+        focusDeck();
+        if (e.clientX < window.innerWidth / 2) go(idx - 1);
+        else go(idx + 1);
+      }, true);
+
+      document.body.setAttribute('tabindex', '-1');
+      document.body.style.outline = 'none';
+      function focusDeck() { try { window.focus(); document.body.focus({ preventScroll: true }); } catch (_) {} }
+      document.addEventListener('mousedown', focusDeck);
+      window.addEventListener('load', focusDeck);
+
+      try {
+        var saved = parseInt(localStorage.getItem(STORE) || '0', 10);
+        if (!isNaN(saved) && saved >= 0 && saved < slides.length) idx = saved;
+      } catch (_) {}
+
+      window.addEventListener('resize', fit);
+      fit();
+      paint();
+      focusDeck();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{
+  "metadataAttributes": {
+    "document_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "매각수거계약서"
+      },
+      "includeForEmbedding": true
+    },
+    "category": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "재활용품"
+      },
+      "includeForEmbedding": true
+    },
+    "property": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "organization": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "잠실엘스아파트"
+      },
+      "includeForEmbedding": true
+    },
+    "source_type": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "recycling_contract"
+      },
+      "includeForEmbedding": false
+    },
+    "language": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "ko"
+      },
+      "includeForEmbedding": false
+    },
+    "contractor": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "(주)에스피리사이클링"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_name": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "재활용품 매각(수거) 계약"
+      },
+      "includeForEmbedding": true
+    },
+    "contract_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-05-07"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_start_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2024-06-01"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_end_date": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "2025-05-31"
+      },
+      "includeForEmbedding": false
+    },
+    "contract_amount": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 54508800
+      },
+      "includeForEmbedding": false
+    },
+    "households": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 5678
+      },
+      "includeForEmbedding": false
+    },
+    "unit_price_krw": {
+      "value": {
+        "type": "NUMBER",
+        "numberValue": 800
+      },
+      "includeForEmbedding": false
+    },
+    "apartment_id": {
+      "value": {
+        "type": "STRING",
+        "stringValue": "APT001"
+      },
+      "includeForEmbedding": false
+    },
+    "is_public": {
+      "value": {
+        "type": "BOOLEAN",
+        "booleanValue": false
+      },
+      "includeForEmbedding": false
+    }
+  }
+}
