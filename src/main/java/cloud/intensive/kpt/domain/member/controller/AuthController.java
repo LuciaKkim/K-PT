@@ -10,6 +10,7 @@ import cloud.intensive.kpt.global.response.CommonResponse;
 import cloud.intensive.kpt.global.security.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -74,6 +75,7 @@ public class AuthController {
     )
     @ApiResponse(responseCode = "200", description = "정보 조회 성공")
     @ApiResponse(responseCode = "404", description = "사용자 찾을 수 없음")
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
     public ResponseEntity<CommonResponse<MemberInfoRes>> me(
             @AuthenticationPrincipal CustomUserDetails user
