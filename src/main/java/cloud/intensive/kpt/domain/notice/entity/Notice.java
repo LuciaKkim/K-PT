@@ -30,8 +30,7 @@ public class Notice {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(nullable = false)

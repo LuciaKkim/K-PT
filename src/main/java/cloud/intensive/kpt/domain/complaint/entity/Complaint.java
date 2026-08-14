@@ -37,8 +37,7 @@ public class Complaint {
     @Column(nullable = false, length = 100)
     private String location;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
