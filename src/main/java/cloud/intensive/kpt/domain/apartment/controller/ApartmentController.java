@@ -79,6 +79,12 @@ public class ApartmentController {
         );
     }
 
+    @Operation(
+            summary = "동 목록 조회",
+            description = "회원가입 시 선택한 아파트의 동 목록을 조회합니다."
+    )
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "404", description = "존재하지 않는 아파트")
     @GetMapping("/{apartmentId}/buildings")
     public ResponseEntity<CommonResponse<List<BuildingInfoRes>>> getBuildings(
             @PathVariable Long apartmentId
@@ -91,6 +97,12 @@ public class ApartmentController {
         );
     }
 
+    @Operation(
+            summary = "호수 목록 조회",
+            description = "회원가입 시 선택한 동의 호수 목록을 조회합니다."
+    )
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "404", description = "존재하지 않는 동")
     @GetMapping("/buildings/{buildingId}/units")
     public ResponseEntity<CommonResponse<List<UnitSelectRes>>> getUnits(
             @PathVariable Long buildingId
