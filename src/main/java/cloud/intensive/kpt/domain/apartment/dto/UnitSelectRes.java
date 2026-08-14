@@ -2,6 +2,8 @@ package cloud.intensive.kpt.domain.apartment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.math.BigDecimal;
+
 public record UnitSelectRes(
 
         @Schema(example = "88")
@@ -11,5 +13,5 @@ public record UnitSelectRes(
         String unitNumber,
 
         @Schema(description = "전용면적", example = "84")
-        Integer area
+        BigDecimal area
 ) {}

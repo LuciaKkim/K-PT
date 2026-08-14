@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ class ComplaintServiceImplTest {
         Apartment apartment = Apartment.builder()
                 .id(1L)
                 .name("래미안")
-                .address("서울")
+                .roadAddress("서울")
                 .build();
 
         Building building = Building.builder()
@@ -62,7 +63,7 @@ class ComplaintServiceImplTest {
                 .id(1L)
                 .building(building)
                 .unitNumber("1201")
-                .area(84)
+                .area(BigDecimal.valueOf(84))
                 .build();
 
         admin = Member.builder()

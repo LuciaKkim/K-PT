@@ -23,6 +23,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -103,7 +104,7 @@ class ApartmentControllerTest {
                 .andExpect(jsonPath("$.resultCode").value("200-1"))
                 .andExpect(jsonPath("$.data.apartmentId").value(1))
                 .andExpect(jsonPath("$.data.name").value("래미안"))
-                .andExpect(jsonPath("$.data.address").value("서울특별시 강남구"));
+                .andExpect(jsonPath("$.data.roadAddress").value("서울특별시 강남구"));
     }
 
     @Test
@@ -117,7 +118,7 @@ class ApartmentControllerTest {
                         "래미안",
                         "101",
                         "1201",
-                        84
+                        BigDecimal.valueOf(84)
                 ));
 
         UsernamePasswordAuthenticationToken authentication =
@@ -174,7 +175,7 @@ class ApartmentControllerTest {
 
         given(apartmentService.getUnits(1L))
                 .willReturn(List.of(
-                        new UnitSelectRes(1L, "1201", 84)
+                        new UnitSelectRes(1L, "1201", BigDecimal.valueOf(84))
                 ));
 
         mockMvc.perform(get("/api/v1/apartments/buildings/1/units"))

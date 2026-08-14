@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ class RagServiceImplTest {
         Apartment apartment = Apartment.builder()
                 .id(3L)
                 .name("래미안")
-                .address("서울")
+                .roadAddress("서울")
                 .build();
 
         Building building = Building.builder()
@@ -57,7 +58,7 @@ class RagServiceImplTest {
                 .id(1L)
                 .building(building)
                 .unitNumber("1201")
-                .area(84)
+                .area(BigDecimal.valueOf(84))
                 .build();
 
         member = Member.builder()

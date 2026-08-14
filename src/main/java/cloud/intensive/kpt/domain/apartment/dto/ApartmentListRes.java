@@ -11,5 +11,5 @@ public record ApartmentListRes(
         String name,
 
         @Schema(example = "서울특별시 강남구 ...")
-        String address
+        String roadAddress
 ) {}

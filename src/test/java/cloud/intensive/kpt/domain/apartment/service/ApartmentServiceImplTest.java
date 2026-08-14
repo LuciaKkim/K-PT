@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ class ApartmentServiceImplTest {
         Apartment apartment = Apartment.builder()
                 .id(1L)
                 .name("래미안")
-                .address("서울특별시 강남구")
+                .roadAddress("서울특별시 강남구")
                 .build();
 
         Building building = Building.builder()
@@ -65,7 +66,7 @@ class ApartmentServiceImplTest {
                 .id(1L)
                 .building(building)
                 .unitNumber("1201")
-                .area(84)
+                .area(BigDecimal.valueOf(84))
                 .build();
 
         member = Member.builder()
@@ -91,7 +92,7 @@ class ApartmentServiceImplTest {
         // then
         assertThat(result.apartmentId()).isEqualTo(1L);
         assertThat(result.name()).isEqualTo("래미안");
-        assertThat(result.address()).isEqualTo("서울특별시 강남구");
+        assertThat(result.roadAddress()).isEqualTo("서울특별시 강남구");
     }
 
     @Test
@@ -125,7 +126,7 @@ class ApartmentServiceImplTest {
         assertThat(result.apartmentName()).isEqualTo("래미안");
         assertThat(result.buildingNumber()).isEqualTo("101");
         assertThat(result.unitNumber()).isEqualTo("1201");
-        assertThat(result.area()).isEqualTo(84);
+        assertThat(result.area()).isEqualTo(BigDecimal.valueOf(84));
     }
 
     @Test
@@ -150,7 +151,7 @@ class ApartmentServiceImplTest {
         Apartment apartment = Apartment.builder()
                 .id(1L)
                 .name("래미안")
-                .address("서울")
+                .roadAddress("서울")
                 .build();
 
         given(apartmentRepository.findAll())

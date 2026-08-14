@@ -43,7 +43,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         return new ApartmentInfoRes(
                 apartment.getId(),
                 apartment.getName(),
-                apartment.getAddress()
+                apartment.getRoadAddress()
         );
     }
 
@@ -76,7 +76,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 .map(apartment -> new ApartmentListRes(
                         apartment.getId(),
                         apartment.getName(),
-                        apartment.getAddress()
+                        apartment.getRoadAddress()
                 ))
                 .toList();
     }
