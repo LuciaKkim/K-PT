@@ -55,6 +55,7 @@ public class ComplaintController {
             summary = "내 민원 목록",
             description = "로그인한 사용자가 등록한 민원을 페이지 단위로 조회합니다."
     )
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/complaints/me")
     public ResponseEntity<CommonResponse<Page<ComplaintListRes>>> getMyComplaints(
 
@@ -111,6 +112,7 @@ public class ComplaintController {
             summary = "관리자 민원 목록",
             description = "관리자가 자신의 아파트 민원을 페이지 단위로 조회합니다."
     )
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/admin/complaints")
     public ResponseEntity<CommonResponse<Page<ComplaintListRes>>> getApartmentComplaints(
 
