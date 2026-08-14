@@ -24,6 +24,18 @@ interface AppState {
 
 const AppStateContext = createContext<AppState | null>(null);
 
+/**
+ * 시연용 아파트명 표시 override.
+ * 백엔드 계정에 등록된 아파트명이 시연에 쓸 이름과 다를 때 `.env.local`의
+ * `NEXT_PUBLIC_DEMO_APARTMENT_NAME`으로 화면 표시만 바꿉니다. (값이 없으면 서버 값 그대로)
+ */
+const DEMO_APARTMENT_NAME = process.env.NEXT_PUBLIC_DEMO_APARTMENT_NAME?.trim();
+
+function withDisplayOverrides(me: MemberInfoRes): MemberInfoRes {
+  if (!DEMO_APARTMENT_NAME) return me;
+  return { ...me, apartmentName: DEMO_APARTMENT_NAME };
+}
+
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [member, setMember] = useState<MemberInfoRes | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
@@ -36,7 +48,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
     getMe()
       .then((data) => {
-        if (!cancelled) setMember(data);
+        if (!cancelled) setMember(withDisplayOverrides(data));
       })
       .catch(() => {
         if (!cancelled) logoutApi();
@@ -52,7 +64,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (payload: LoginReq) => {
     await loginApi(payload);
     const me = await getMe();
-    setMember(me);
+    setMember(withDisplayOverrides(me));
   }, []);
 
   const signup = useCallback(async (payload: CreateMemberReq) => {
